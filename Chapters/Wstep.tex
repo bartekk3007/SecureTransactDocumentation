@@ -1,0 +1,41 @@
+\chapter{Wstęp i cel pracy}
+\label{chap:wstep}
+
+Celem naszej pracy jest wytworzenie aplikacji, która będzie wspomagać użytkowników programu w planowaniu oraz realizacji zadań przy wykorzystaniu metodologii Getting Things Done (GTD), opracowanej przez Davida Allena w jego książce o tym samym tytule \cite{GTD}. GTD to sposób odpowiedniego uporządkowywania planów i zadań tak, aby osoba mogła się skupić na ich realizacji, aniżeli na ciągłym myśleniu o nich \cite{DAllInt}. Jednym z głównych założeń naszego programu jest jego decentralizacja działania, tj. żaden klient nie pełni równocześnie funkcji centralnego serwera, przez który przepływają informacje do innych klientów. Każdy klient łączy się bezpośrednio z pozostałymi, którzy są połączeni ze sobą w sieci typu peer-to-peer (P2P). Z tym sposobem komunikacji klientów związany jest również sposób przechowywania danych, przekazywanych między nimi, gdyż w tym celu zostanie wykorzystana struktura danych zwana łańcuchem bloków (ang. Blockchain).
+
+\section{Uzasadnienie potrzeby realizacji tematu}
+Obecnie nie stanowi problemu znalezienie odpowiadającgo użytkownikowi narzędzia do planowania i realizacji zadań w oparciu o metodologię GTD \cite{GTD-apps}. Przykładami takich programów są m.in.:
+\begin{itemize}
+    \item Nirvana,
+    \item Evernote,
+    \item ClickUp,
+    \item ToodleDo.
+\end{itemize}
+Programy te jednak mają jedną zasadniczą wadę, które zmotywowały nasz zespół do realizacji tego tematu: żadne z nich nie oferuje możliwości pracy w sposób zdecentralizowany. Mogą one działać jedynie na dwa sposoby:
+\begin{itemize}
+    \item korzystając z centralnego serwera,
+    \item lokalnie.
+\end{itemize}
+Korzystanie z centralnego serwera oznacza, że użytkownik musi przesyłać dane na serwer firmy zarządzającej danym programem, co może wiązać się z naruszeniem jego prywatności, gdyż wgląd do danych mogą mieć również nieupoważnione osoby. Aplikacje działające lokalnie natomiast mają ograniczenie w postaci możliwości korzystania z nich tylko przez danego użytkownika w odrębie jednego urządzenia, zatem nie ma on możliwości udostępnienia swoich planów czy zadań z innymi upoważnionymi osobami.
+\par Bliźniaczo podobna sytuacja ma się z aplikacjami zdecentralizowanymi. Tutaj również można znaleźć pełno rozwiązań spełniających to założenie, lecz żadne z nich nie implementuje w znacznym stopniu GTD. Można zatem stwierdzić, że w momencie redagowania niniejszej pracy dyplomowej, nie istnieje żadne takie rozwiązanie publicznie dostępne, które spełniałoby w pełni nasze wymagania.
+
+\section{Podział prac}
+W naszej pracy dyplomowej można wyodrębnić zadania poszczególnych członków w następujący sposób:
+\begin{itemize}
+    \item Bartosz Kołakowski:
+        \begin{itemize}
+            \item Lider grupy, odpowiedzialny za koordynowanie pracy i przydzielanie zadań całemu zespołowi. Zrealizował moduł szyfrowania i deszyfrowania wykorzysywany w logice biznesowej naszego programu. Zaimplementował również uzyskiwanie konsensusu PoS.  
+        \end{itemize}
+    \item Piotr Noga:
+        \begin{itemize}
+            \item Zrealizował pozostałe komponenty logiki biznesowej programu oraz połączenie jej z interfejsem graficznym.  
+        \end{itemize}
+    \item Michał Mróz:
+        \begin{itemize}
+            \item Odpowiedzialny za wygląd aplikacji oraz połączenie interfejsu graficznego z częścią logiki biznesowej aplikacji.  
+        \end{itemize}
+    \item Maksym Nowak:
+        \begin{itemize}
+            \item <do uzupełnienia>.  
+        \end{itemize}
+\end{itemize}
