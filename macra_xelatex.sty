@@ -71,6 +71,48 @@
 {\normalfont\itshape}{\thesubsection.}{0.5em}{} 
 \titlespacing*{\subsection}{0pt}{12pt}{6pt}
 
+\usepackage{xcolor}
+
+\lstdefinelanguage{Python}{
+    morekeywords={import, from, def, return, class, if, elif, else, for, while, break, continue, in, is, not, and, or, with, as, lambda, yield, try, except, raise, pass, True, False, None},
+    sensitive=true,
+    morestring=[b]",
+    morestring=[s]{'}{'},
+    morecomment=[l]{\#},
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    showstringspaces=false,
+    basicstyle=\ttfamily,
+    tabsize=4,
+    breaklines=true,
+    breakatwhitespace=true
+}
+
+\lstdefinelanguage{QML}{
+    morekeywords={import, ApplicationWindow, Popup, Column, Button, property, function, id, anchors, width, height, modal, spacing, text, onClicked, visible, contentItem},
+    sensitive=true,
+    morestring=[b]",
+    morestring=[s]{'}{'},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray}\itshape,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    showstringspaces=false,
+    basicstyle=\ttfamily,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=true
+}
 
 %formatowanie spisu treści
 \usepackage[nottoc]{tocbibind}
