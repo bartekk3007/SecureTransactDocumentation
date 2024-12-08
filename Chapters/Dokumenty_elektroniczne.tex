@@ -1,6 +1,7 @@
 \chapter{Interfejs graficzny użytkownika}
 \label{chap:InterfejsGraficznyUżytkownika}
-Aplikacja posiada rozbudowany graficzny interfejs użytkownika, który w sposób responsywny dostosowuje się do urządzeń desktopowych oraz mobilnych. Interfejs dostępny jest w dwóch trybach wizualnych: jasnym i ciemnym, oferując różnorodne efekty kolorystyczne oraz animacje. Dodatkowo aplikacja renderuje dynamicznie pojedynczy obiekt trójwymiarowy wraz z jego animacją, co wzbogaca wizualny aspekt interfejsu.
+\textit{Autor: Michał Mróz}
+\par Aplikacja posiada rozbudowany graficzny interfejs użytkownika, który w sposób responsywny dostosowuje się do urządzeń desktopowych oraz mobilnych. Interfejs dostępny jest w dwóch trybach wizualnych: jasnym i ciemnym, oferując różnorodne efekty kolorystyczne oraz animacje. Dodatkowo aplikacja renderuje dynamicznie pojedynczy obiekt trójwymiarowy wraz z jego animacją, co wzbogaca wizualny aspekt interfejsu.
 
 %---
 \section{Projektowanie interfejsu graficznego}
@@ -37,16 +38,16 @@ Jednakże w porównaniu do Tkintera, interfejsy w tej bibliotece są przestarza�
 
 Framework QT oraz zawarty w nim QML mają wiele zalet, które nas przekonały do skorzystania z tej technologii:
 \begin{enumerate}
-    \item Qt jest wieloplatformowy, można tworzyć aplikacje na Windowsa, Linuxa, MacOSa i urządzenia mobilne
-    \item Łatwo łączyć logikę backendu z frontendem
-    \item QML umożliwia dodawanie animacji, renderowanie obiektów trójwymiarowych i tworzenie responsywnego interfejsu
-    \item QT posiada ogromną dokumentację i ma szeroką społeczność użytkowników
-    \item Oddzielenie frontendu (QML) od backendu (Python) sprzyja lepszej organizacji kodu
+    \item Qt jest wieloplatformowy, można tworzyć aplikacje na Windowsa, Linuxa, MacOSa i urządzenia mobilne,
+    \item Łatwo łączyć logikę backendu z frontendem,
+    \item QML umożliwia dodawanie animacji, renderowanie obiektów trójwymiarowych i tworzenie responsywnego interfejsu,
+    \item QT posiada ogromną dokumentację i ma szeroką społeczność użytkowników,
+    \item Oddzielenie frontendu (QML) od backendu (Python) sprzyja lepszej organizacji kodu.
 \end{enumerate}
 
 \subsection{Podstawy QT Modeling Language} 
 \label{sec:PodstawyQtModelingLanguage}
-\emph{Qt Modeling Language} to język deklaratywny podobny do CSS i HTML, wchodzący w skład modułu QtQuick frameworka Qt. Aby zacząć używać QML'a, należy stworzyć plik .qml w którym możemy zawrzeć:
+\emph{Qt Modeling Language} to język deklaratywny, podobny do CSS i HTML, wchodzący w skład modułu QtQuick frameworka Qt. Aby zacząć używać QMLa, należy stworzyć plik .qml w którym możemy zawrzeć:
 
 \begin{lstlisting}[language=QML, caption={Przykładowy kod QML}]
 import QtQuick 2.0
@@ -58,7 +59,7 @@ Rectangle {
     color: "red"
 }
 \end{lstlisting}
-który tworzy kwadrat 100x100 w kolorze czerwonym, struktura kodu w QML jest hierarchiczna oznacza to, że wewnątrz kodu Rectangle moglibyśmy dodać kolejny obiekt, który byłby tworzony względem rodzica - Rectangle.
+który tworzy kwadrat 100x100 w kolorze czerwonym. Struktura kodu w QML jest hierarchiczna. Oznacza to, że wewnątrz kodu Rectangle moglibyśmy dodać kolejny obiekt, który byłby tworzony względem rodzica - Rectangle.
 
 Dodatkowo QML umożliwia pisanie w języku Javascript w odpowiednich polach,
 na przykład do kodu w kwadracie można dodać:
