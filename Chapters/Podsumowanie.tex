@@ -1,3 +1,15 @@
-\chapter{Podsumowanie} 
-
-Każda praca dyplomowa musi posiadać rozdział zatytułowany Podsumowanie. Rozdział powinien zostać umieszczony przed Wykazem literatury, zawierać podsumowanie głównych osiągnięć pracy i/lub uzyskanych wyników badań. Ponadto w rozdziale tym należy opisać jakie czynności należy zrealizować, jeśli prace nad tematem byłyby kontynuowane. 
+\chapter{Podsumowanie}
+Udało się nam zrealizować wszystkie stawiane systemowi wymagania:
+\begin{itemize}
+    \item System działa w architekturze rozproszonej, każdy z użytkowników jest równy innym, system został zaimplementowany bez użycia głównego serwera, co pozwoliło uniknąć centralizacji
+    \item W systemie można wysyłać wiadomości do innych użytkowników
+    \item W systemie można tworzyć grupy z dowolnymi użytkownikami i treść wiadomości dla osób z poza grupy nie jest dostępna
+    \item System oparty jest o mechanizmy działające w kryptowalutach mające na celu zapewnienie w nim uczciwości i bezpieczestwa
+    \item System posiada graficzny interfejs użytkownika, pozwalający na łatwiejsze korzystanie z niego
+    \item System posiada szyfrowanie danych w celu zapewnienia poufności i tego, aby nikt z poza sieci nie mógł odczytać treści wiadmości
+    \item W systemie zapewniona jest niezaprzeczalność wiadomości poprzez ich podpisywanie podpisem cyfrowym przez weryfiktora
+    \item W systemie zaimplementowane są mechanizmy zapwenianiania uczciwości poprzez implementację algorytmów osiągania konsensusu
+    \item W systemie można planować zadania do wykonania
+\end{itemize}
+\vspace{0.3\baselineskip}
+Podsumowując stworzyliśmy działający system z w pełni działającym graficznym interfejsem użytkownika, który pozwala na komunikację między użytkownikami i jak i tworzenie dowolnie dużych grup użytkowników, dla których odbywa się komunikacja grupowa. W systemie zapewniona jest poufność poprzez zastosowanie szyfrowania wiadmości, niezaprzeczalność przez podpisywanie cyfrowe bloków wiadomości i mechanizmy zapewniania uczciwości systemu przez algorytmu osiągania konsensusu.
