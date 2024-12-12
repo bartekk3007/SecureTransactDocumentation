@@ -235,6 +235,12 @@
 %odnonik do rozdziau
 \newcommand{\zobrozdz}[1]{(zob. rozdz. \ref{#1})}
 
+%wykaz wzorów
+\newcommand{\listequationsname}{Wykaz wzorów}
+\newlistof{equations}{equ}{\listequationsname}
+\newcommand{\equations}[1]{%
+\addcontentsline{equ}{equations}{\protect\numberline{\theequation}#1}\par}
+
 
 
 

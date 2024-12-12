@@ -83,36 +83,43 @@ Oznaczenie początkowych liczb - wzór \ref{eq:first}
     p, \; q-losowe, \; ogromne \; liczby \; pierwsze
     \label{eq:first}
 \end{equation}
+\equations{Oznaczenie początkowych liczb}
 Wartość modułu - wzór \ref{eq:second}
 \begin{equation}
     n=p*q
     \label{eq:second}
 \end{equation}
+\equations{Wartość modułu}
 Wartość funkcji Eulera - wzór \ref{eq:third}
 \begin{equation}
     \phi(n)=(p-1)*(q-1)
     \label{eq:third}
 \end{equation}
+\equations{Wartość funkcji Eulera}
 Klucz publiczny - wzór \ref{eq:fourth}
 \begin{equation}
     e \in \{NWD(\phi(n),e)=1, \; 1 \leqslant e \leqslant \phi(n)\}
     \label{eq:fourth}
 \end{equation}
+\equations{Klucz publiczny}
 Klucz prywatny - wzór \ref{eq:fifth}
 \begin{equation}
     d= e^{-1} (mod \; \phi(n))
     \label{eq:fifth}
 \end{equation}
-Szyfrowanie wiadomość odbywa się korzystając ze wzoru \ref{eq:sixth}
+\equations{Klucz prywatny}
+Szyfrowanie wiadomości odbywa się korzystając ze wzoru \ref{eq:sixth}
 \begin{equation}
     C= M^e, \; C-zaszyfrowana \;  wiadomość, \; M-oryginalny \; tekst, \; e-klucz \; publiczny
     \label{eq:sixth}
 \end{equation}
+\equations{Szyfrowanie wiadomości}
 Deszyfrowanie odbywa się za pomocą wzoru \ref{eq:seventh}
 \begin{equation}
     M= C^d, \; M-deszyfrowana \; wiadmość, \;C-zakodowany \; tekst, \; d-klucz \; prywatny
     \label{eq:seventh}
 \end{equation}
+\equations{Deszyfrowanie wiadomości}
 Bezpieczeństwo tego algorytmu opiera się na tym, że odwrócenie tych operacji i uzyskanie klucza prywatnego na podstawie czyjegoś klucza publicznego oraz treści zaszyfrowany i deszyfrowanych wiadomości jest obliczeniowo bardzo trudne.
 
 Ukazanie RSA w skomplikowanych systemach na rysunku \ref{fig:RSASieci}
@@ -366,6 +373,7 @@ Podczas przesyłania danych przez sieć może pojawić się problem, że niektó
     Liczba = \sum_{i=1}^6 bit_i * 2^{i-1}
     \label{eq:Base64Formula}
 \end{equation}
+\equations{Liczba w kodowaniu Base64}
 Podział ciągu bajtów na trzybajtowe grupy, na następnie na cztery sześciobitowe grupy został zwizualizowany, na grafice \ref{fig:Base64Schema}
 \begin{figure}[H]
     \centering
