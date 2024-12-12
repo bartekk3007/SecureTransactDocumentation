@@ -1,12 +1,12 @@
-\chapter{Architektura oprogramowania i backend aplikacji}
-\label{chap:BackendAplikacji}
+\chapter{Architektura oprogramowania i zaplecze aplikacji}
+\label{chap:ZapleczeAplikacji}
 \textit{Autor: Piotr Noga}
-\par Niemniej ważnym elementem naszej pracy, od przedstawionego w poprzednim rozdziale interfejsu graficznego, było zaimplementowanie systemu, który byłby odpowiedzialny za przechowywanie wszelkich danych, które są wykorzystywane w trakcie działania aplikacji oraz za logikę biznesową, umożliwiającą działanie algorytmów zaprezentowanych w rozdziale \nameref{} czy też odpowiednie przetwarzanie informacji między użytkownikiem a wspomnianą wcześniej warstwą przechowywania danych.
-Tę sekcję aplikacji przyjęło się w nomenklaturze informatycznej określać wyrazem z języka angielskiego "Backend" \cite{BackendDef}\cite{BackendDefArt}. Wyraz ten nie ma bezpośredniego tłumaczenia na język polski, stąd też w dalszej części tej pracy będzie on wykorzystywany, by określić wspomnianą powyżej warstwę programu.
+\par Niemniej ważnym elementem naszej pracy, od przedstawionej w rozdziale \nameref{chap:InterfejsGraficznyUżytkownika} warstwy prezentacji danych, było zaimplementowanie systemu, który byłby odpowiedzialny za przechowywanie wszelkich danych, które są wykorzystywane w trakcie działania aplikacji oraz za logikę biznesową, umożliwiającą działanie algorytmów zaprezentowanych w rozdziale \nameref{sec:POSUzycie} czy też odpowiednie przetwarzanie informacji między użytkownikiem a wspomnianą wcześniej warstwą przechowywania danych.
+Tę sekcję aplikacji przyjęło się w nomenklaturze informatycznej nazywać zapleczem.
 
 \section{Architektura oprogramowania}
 \label{sec:ArchitekturaOprogramowania}
-Przed opisem Backendu należy się zagłębić nad architekturą oprogramowania, gdyż to od niej tak naprawdę zależy, jak zostanie on zaimplementowany. Architektura ta wskazuje m.in. potrzeby jakie ma spełniać program oraz w jaki sposób powinien je realizować \cite{AO}.
+Przed opisem zaplecza należy się zagłębić nad architekturą oprogramowania, gdyż to od niej tak naprawdę zależy, jak zostanie on zaimplementowany. Architektura ta wskazuje m.in. potrzeby jakie ma spełniać program oraz w jaki sposób powinien je realizować \cite{AO}.
 
 \subsection{Architektura rozproszona}
 \label{sec:Rozproszenie}
@@ -60,7 +60,8 @@ Jednym z istotnych elementów naszego programu jest możliwość komunikowania s
 Alternatywą do HTTP jest IPFS - InterPlanetary File System, który na pierwszy rzut oka wygląda na  lepsze rozwiązanie do naszej pracy, gdyż w przeciwieństwie do HTTP jest przystosowany do pracy w sieci rozproszonej, czym jest głównie reklamowany \cite{IPFS}. Nie wybraliśmy go jednak w naszej pracy ze względu na wcześniejsze doświadczenie z protokołem HTTP w poprzednich naszych projektach oraz na znikomą ilość pomocy dydaktycznej związanej z wykorzystaniem go w aplikacjach. Problemem z IPFS jest również to, że jego przystosowanie do sieci rozproszonej tyczy się treści przesyłanych przez ten protokół, aniżeli komunikacji między osobami. Jest to dobre rozwiązanie w przypadku, gdyby nasza aplikacja polegała wyłącznie na przechowywaniu danych i przesyłaniu ich między użytkownikami. Ze względu na zastosowanie łańcucha bloków, o którym można więcej przeczytać w sekcji \nameref{sec:Blockchain}, w którym zapisywanie danych nie odbywa się natychmiast, nie jest to koniecznie dobre rozwiązanie.
 \clearpage
 \begin{figure}[!ht]
-		\includegraphics[scale=0.7]{Images/wysylanie_wiadomosci.pdf}
+    \centering
+		\includegraphics[width=1\linewidth]{Images/wysylanie_wiadomosci.pdf}
 	\caption{Diagram sekwencji wysłania wiadomości i jej wyświetlenia}
 	\label{fig:wysylanieWiadomosci}
 \end{figure}
@@ -72,48 +73,16 @@ W tym konkretnym przypadku przedstawionym na diagramie, w naszym projekcie byłb
 \begin{lstlisting}[caption={Adres docelowy wywołania funkcji odbierania wiadomości}]
 http://<Adres IP>:<Numer portu>/receive_message
 \end{lstlisting}
-Najpierw zostanie zaprezentowany fragment kodu związanego z wysyłaniem zapytania HTTP od strony Użytkownika A.
-\begin{lstlisting}[language=Python, caption ="Fragment kodu odpowiedzialnego za wysłanie żądania HTTP z wiadomością do drugiego użytkownika"]
-@Slot(str)
-def send_mes(self, message):
-    (...)
-    response = requests.post("http://{}:{}/receive_message"
-                            .format(peer.host, peer.port),
-                            json={"host": self.host, "port": self.port,
-                            "message": encrypted_message,
-                            "date": date, "group": group}
-                            )
-    (...)
-\end{lstlisting}
-Wysłanie żądania odbywa się za pomocą gotowej funkcji przygotowanej w bibliotece \textit{Flask}, odpowiedzialnej za działanie serwera (funkcja \textit{requests.post()}). Wszelkie dane, które mają trafić do drugiej osoby, zapisywane są w formacie JSON, stąd też należy się upewnić, czy dane są możliwe do przedstawienia za pomocą tego formatu. Po wysłaniu zapytania HTTP, serwer Użytkownika B odbiera je i przekazuje dalej do logiki biznesowej. Uproszczony fragment kodu odpowiedzialnego za odbiór tych danych wygląda następująco:
-\begin{lstlisting}[language=Python, caption ="Uproszczony fragment kodu odpowiedzialnego za odbieranie żądania HTTP z wiadomością"]
-@self.app.route('/receive_message', methods=['POST'])
-def receive_message():
-    (...)
-    if request.message:
-        return jsonify({"status": "Message received!"}), HTTPStatus.OK
-    else:
-        return jsonify({"error": "Got no message"}), HTTPStatus.BAD_REQUEST
-\end{lstlisting}
-W tym fragmencie kodu nie zostało uwzględnione przetwarzanie danych, gdyż nie jest to istotne z punktu widzenia komunikacji między użytkownikami. Zostało tutaj przedstawione jedynie wysyłanie odpowiedzi zwrotnej do Użytkownika A. W przypadku, gdy Użytkownik B otrzymał prawidłową wiadomość, wysyła odpowiedź HTTP ze statusem sukcesu, oznaczającym wysłanie prawidłowego żądania. Jeśli jednak z jakiegoś powodu Użytkownik A wysłał błędną wiadomość, np. została źle sformatowana, bądź Użytkownik B posiada przestarzały klucz publiczny Użytkownika A, przez co nie mógł jej prawidłowo odszyfrować, to wysyła odpowiedź ze statusem błędu. Po wysłaniu odpowiedzi, Użytkownik A w zależności, jaką otrzymał odpowiedź, wykonuje daną czynność. Poniżej wygląd uproszczonego kodu przetwarzającego otrzymaną odpowiedź:
-\begin{lstlisting}[language=Python, caption ="Uproszczony fragment kodu odpowiedzialnego za przetworzenie odpowiedzi HTTP"]
-if response.status_code == HTTPStatus.OK:
-    self.messages.append(
-                        {"host": self.host, "port": self.port, 
-                        "message": encrypted_message,
-                        "date": date, "group": group}
-                        )
-\end{lstlisting}
-Jak można zauważyć, użytkownik dodaje do swojej puli wiadomości tę wysłaną do Użytkownika B tylko wtedy, gdy się okaże, że została ona prawidłowo odebrana. Zostało to również odzwierciedlone na analizowanym diagramie.
+Wysłanie żądania odbywa się za pomocą gotowej funkcji przygotowanej w bibliotece \textit{Flask}, odpowiedzialnej za działanie serwera (funkcja \textit{requests.post()}). Wszelkie dane, które mają trafić do drugiej osoby, zapisywane są w formacie JSON. Po wysłaniu zapytania HTTP, serwer Użytkownika B odbiera je i przekazuje dalej do logiki biznesowej. W przypadku, gdy Użytkownik B otrzymał prawidłową wiadomość, wysyła odpowiedź HTTP ze statusem sukcesu, oznaczającym wysłanie prawidłowego żądania. Jeśli jednak z jakiegoś powodu Użytkownik A wysłał błędną wiadomość, np. została źle sformatowana, bądź Użytkownik B posiada przestarzały klucz publiczny wysyłającego, przez co nie mógł jej prawidłowo odszyfrować, to wysyła odpowiedź ze statusem błędu. Użytkownik A w zależności od tego, jaką otrzymał odpowiedź, wykonuje odpowiednią czynność. Dodaje on do swojej puli wiadomości tę wysłaną do Użytkownika B tylko wtedy, gdy się okaże, że została ona prawidłowo odebrana. Zostało to również odzwierciedlone na analizowanym diagramie.
 
 \section{Przechowywanie danych}
 \label{sec:PrzechowywanieDanych}
 Trzecią z warstw aplikacji, jakie można wyodrębnić zaraz po warstwie prezentacji (interfejsu graficznego) oraz logiki biznesowej, jest warstwa przechowywania danych. Jest ona odpowiedzialna za dostęp do danych używanych w trakcie korzystania aplikacji. Warstwa ta ma gwarantować to, że w możliwie jak najkrótszym czasie uzyska się żądane dane oraz ich zapis przebiegnie bez najmniejszych zakłóceń. W przypadku awarii systemu i utraty danych z tego tytułu, warstwa ta powinna być w stanie odtworzyć je na podstawie ich kopii, które znajdują się na komputerach innych użytkowników. Proces ten powinien przebiegać na tyle sprawnie, żeby użytkownik mógł nawet nie zwrócić uwagi na fakt, że przez krótki czas mógł mieć błędne dane.
 %TODO
 
-\subsection{Blockchain}
+\subsection{Łańcuch bloków}
 \label{sec:Blockchain}
-Użycie sieci P2P w naszej pracy przyja temu, by skorzystać ze struktury danych, która jest przystosowana do takiego rozwiązania. Jedną z takich struktur jest łańcuch bloków \ang{Blockchain}. Jest to jednokierunkowa lista, w której nowe rekordy, zwane blokiem, są przyłączane zawsze na jej końcu. Każdy z tych bloków jest odpowiednio przywiązany do ich sąsiadów. Jest to możliwe dzięki zastosowaniu odpowiednio zaszyfrowanego skrótu z treści \ang{Hash} poprzedzającego go bloku. Przywiązanie te najprościej będzie przedstawić na podstawie naszego kodu, w którym widoczne są pola, jakie zawiera obiekt klasy Block.
+Użycie sieci P2P w naszej pracy sprzyja temu, by skorzystać ze struktury danych, która jest przystosowana do takiego rozwiązania. Jedną z takich struktur jest łańcuch bloków \ang{Blockchain}. Jest to jednokierunkowa lista, w której nowe rekordy, zwane blokiem, są przyłączane zawsze na jej końcu. Każdy z tych bloków jest odpowiednio przywiązany do ich sąsiadów. Jest to możliwe dzięki zastosowaniu odpowiednio zaszyfrowanego skrótu z treści \ang{Hash} poprzedzającego go bloku. Przywiązanie te najprościej będzie przedstawić na podstawie naszego kodu, w którym widoczne są pola, jakie zawiera obiekt klasy Block.
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Pola obiektu klasy Block}]
 self.index
 self.data
@@ -123,4 +92,4 @@ self.portVerifier
 self.publicKeyVerifier
 self.lastDigitalEncryption
 \end{lstlisting}
-Pola tej klasy służące do łączenia ze sobą bloków to \textit{digitalEncryption} oraz \textit{lastDigitalEncryption}, z czego to pierwsze informuje o skrócie z treści aktualnego bloku, a drugie z bloku poprzedzającego. Przy tworzeniu łańcucha bloków należy stworzyć również blok "zerowy". Wynika to z faktu, że pierwszy blok, który rozpoczyna łańcuch, nie posiada swojego poprzednika, zatem pole \textit{lastDigitalEncryption} musi mieć ustawioną specjalną wartość. W różnych implementacjach łańcucha bloków, jakie napotkaliśmy w publicznych repozytoriach kodów jak np. \url{https://github.com} najczęściej spotykaliśmy rozwiązanie, że skrót treści "zerowego" bloku był przepisywany do pola z  wartością poprzednika. Z takiego pomysłu również skorzystaliśmy w naszej implementacji łańcucha bloków, którą bazujemy na implementacji znajdującej się w repozytorium pod linkiem: \url{https://github.com/breqdev/blockchat} (Dostęp: 2024-12-07). Poza tymi dwoma polami, warto zwrócić uwagę również na pozostałe. Pole \textit{index} umożliwia pozycjonowanie bloków w całym łańcuchu, natomiast pole \textit{data} jest tym kluczowym, gdyż właśnie w nim zapisywane są wszelkie dane odnośnie grupy wiadomości czy informacji na temat sfinalizowanego projektu z modułu planera. Grupa wiadomości to nic innego jak zbiór \textit{x} wiadomości przesłanych między użytkownikami, gdzie \textit{x} oznacza ich liczbę. Domyślnie jest to wartość 20. Pola \textit{hostVerifier}, \textit{portVerifier} oraz \textit{publicKeyVerifier} są związane ze szyfrowaniem bloku przez podpis odpowiedniego sygnatariusza, czyli osoby wybranej w PoS do zweryfikowania autentyczności otrzymanych danych. Te pola to odpowiednio: adres IP, numer portu oraz klucz publiczny tego użytkownika. Więcej informacji odnośnie roli tej osoby przy szyfrowaniu bloku znajduje się w rozdziale \nameref{}. Po przedstawieniu zasad działania łańcucha bloków oraz omówieniu tego jak wygląda on w naszym programie, pora na uzasadnienie wyboru akurat tego rozwiązania.
+Pola tej klasy służące do łączenia ze sobą bloków to \textit{digitalEncryption} oraz \textit{lastDigitalEncryption}, z czego to pierwsze informuje o skrócie z treści aktualnego bloku, a drugie z bloku poprzedzającego. Przy tworzeniu łańcucha bloków należy stworzyć również blok "zerowy". Wynika to z faktu, że pierwszy blok, który rozpoczyna łańcuch, nie posiada swojego poprzednika, zatem pole \textit{lastDigitalEncryption} musi mieć ustawioną specjalną wartość. W różnych implementacjach łańcucha bloków, jakie napotkaliśmy w publicznych repozytoriach kodów jak np. \url{https://github.com} najczęściej spotykaliśmy rozwiązanie, że skrót treści "zerowego" bloku był przepisywany do pola z  wartością poprzednika. Z takiego pomysłu również skorzystaliśmy w naszej implementacji łańcucha bloków, którą bazujemy na implementacji znajdującej się w repozytorium pod linkiem: \url{https://github.com/breqdev/blockchat} (Dostęp: 2024-12-07). Poza tymi dwoma polami, warto zwrócić uwagę również na pozostałe. Pole \textit{index} umożliwia pozycjonowanie bloków w całym łańcuchu, natomiast pole \textit{data} jest tym kluczowym, gdyż właśnie w nim zapisywane są wszelkie dane odnośnie grupy wiadomości czy informacji na temat sfinalizowanego projektu z modułu planera. Grupa wiadomości to nic innego jak zbiór \textit{x} wiadomości przesłanych między użytkownikami, gdzie \textit{x} oznacza ich liczbę. Domyślnie jest to wartość 20. Pola \textit{hostVerifier}, \textit{portVerifier} oraz \textit{publicKeyVerifier} są związane ze szyfrowaniem bloku przez podpis odpowiedniego sygnatariusza, czyli osoby wybranej w PoS do zweryfikowania autentyczności otrzymanych danych. Te pola to odpowiednio: adres IP, numer portu oraz klucz publiczny tego użytkownika. Więcej informacji odnośnie roli tej osoby przy szyfrowaniu bloku znajduje się w rozdziale \nameref{sec:POSUzycie}. Po przedstawieniu zasad działania łańcucha bloków oraz omówieniu tego jak wygląda on w naszym programie, pora na uzasadnienie wyboru akurat tego rozwiązania.

@@ -1,3 +1,37 @@
 \chapter{Stan wiedzy}
 \label{chap:stan_wiedzy}
+\textit{Autor: Piotr Noga}
+\par Zanim podjęliśmy się naszej pracy dyplomowej, przejrzeliśmy artykuły naukowe, literaturę oraz dostępne w Internecie implementacje projektów związanych z naszym tematem pracy. Mogliśmy w ten sposób ugruntować swój stan wiedzy.
+\section{Artykuły naukowe}
+\label{sec:ArtykulyNaukowe}
+Zacznijmy od przeglądu artykułów naukowych. Skupiliśmy swoją uwagę głównie na artykuły naukowe napisane w języku angielskim, lecz staraliśmy się znaleźć również publikacje polskojęzyczne. W poszukiwaniu odpowiednich artykułów naukowych skorzystaliśmy z udostępnianego przez Bibliotekę Politechniki Gdańskiej dostępu do zagranicznych bibliotek cyfrowych. Tymi bibliotekami, z których głównie korzystaliśmy, były:
+\begin{itemize}
+    \item IEEE Xplore
+    \item ACM Digital Library
+    \item Springer
+    \item Scopus | Elsevier
+\end{itemize}
+Korzystaliśmy również z ogólnodostępnych bibliotek cyfrowych oraz wydawnictw, oferujących artykuły napisane w języku polskim, takich jak:
+\begin{itemize}
+    \item Google Scholar
+    \item Polska Bibliografia Naukowa
+    \item MDPI
+\end{itemize}
+Swoje poszukiwania rozpoczęliśmy od sprawdzenia, czy istnieją artykuły naukowe odnoszące się w całości do naszego tematu pracy. Mimo próby znalezienia odpowiednich artykułów  poprzez używanie różnych fraz kluczowych w języku polskim, jak również w angielskim, takich jak: "\textbf{system} \ang{system}, \textbf{dispersion} \ang{support}, \textbf{planowanie} \ang{planning}, \textbf{zdecentralizowany} \ang{decentralized}, \textbf{aplikacja} \ang{application}, \textbf{poufność} \ang{confidentiality}, \textbf{niezaprzeczalność} \ang{non-repudiation}, \textbf{rozproszenie} \ang{distributed}, \textbf{konsensus} \ang{consensus}, \textbf{łańcuch bloków} \ang{blockchain}, GTD (skrót od Getting Things Done)", w żadnej z bibliotek nie ma ani jednego artykułu naukowego, który wprost omawiałby aplikację, która implementuje wszystkie założenia naszego systemu. Można znaleźć artykuły odnoszące się jedynie do wybranych zagadnień. Wśród nich można wyróżnić prezentacje implementacji aplikacji zdecentralizowanych. Natrafiliśmy również na jeden z takich artykułów \cite{EvolutionOfBlockchainCon}, który zdecydowanie wpłynął na nasz wybór algorytmu uzgadniania konsensusu łańcuchów bloków, gdyż w szczegółowy sposób omówił każdy z nich, porównał je między sobą, wypisując ich wady i zalety oraz zawierał od razu odnośniki również do innych prac naukowych, w których zostały omówione poszczególne algorytmy.
 
+\section{Literatura}
+\label{sec:Literatura}
+W przypadku literatury sprawa wygląda podobnie co przy artykułach naukowych. Nie ma takich publikacji, które łączyłyby większość zagadnień związanych z naszą pracą dyplomową, a co najwyżej tylko kilka z nich. Nie mniej jednak można przebierać w wielu książkach związanych z łańcuchem bloków takich jak chociażby "Mastering Blockchain" \cite{MasteringBlockchain}, "Blockchain, Crypto and DeFi" \cite{BCDF}, "Build Your Own Blockchain" \cite{BuildBlockchain} czy też "Bubble Or Revolution?" \cite{BubbleOrRevolution}, które często tłumaczą to zagadnienie w mniej bądź bardziej techniczny sposób, lecz z pewnością w wystarczającym dla nas w zupełności, co z pewnością przyłożyło się na zastosowanie tej struktury danych. Nieodzowną pomocą w naszej pracy okazała się także książka autorstwa Davida Allena pt. "Getting Things Done" \cite{GTD}, która w kompleksowy sposób wyjaśniła nam zasady stojące za tytułową metodologią, którą wdrożyliśmy w naszej aplikacji. Jeśli chodzi o wiedzę kryptograficzną to korzystaliśmy z książek "Kryptografia: w teorii i w praktyce" \cite{KryptografiaWTeoriiPraktyce}, "Kryptografia i ochrona danych" \cite{KryptografiaOchronaDanych} i "Algorytmy kryptograficzne" \cite{AlgorytmyKryptograficzne}. Książki przedstawiające tematykę kryptowalut i zawartych w nich mechanizmów to między innymi "Blockchain. Przewodnik po łańcuchu bloków." \cite{BlockchainPrzewodnikPoLanuchu}, "Blockchain. Fundament nowej gospodarki" \cite{BlockchainFundamentGospodarki} i "Dowód stawki" \cite{DowodStawki}. O aplikacjach zdecentralizowanych i kominukacji równy z równym (peer-to-peer) dowiedzieliśmy się z książek "Projektowanie systemów rozproszonych" \cite{ProjektowanieSystemowRozproszonych} i "Peer-to-Peer. Harnessing the Power of Disruptive Technologies" \cite{PeerToPeer}. Wiedzę o tworzeniu aplikacji internetowych (głownie za pomocą platformy programistycznej Flask) uzyskaliśmy z "Flask. Tworzenie aplikacji internetowych w Pythonie" \cite{FlaskTworzenieAplikacji}, "Mastering Flask" \cite{MasteringFlask} i "Flask By Example" \cite{FlaskExample}. Przy tworzeniu graficznego interfejsu użytkownika (GUI) korzystaliśmy z takich źródeł - "Tkinter GUI Application Development Cookbook" \cite{TkinterCookbook}, "Biblioteki Qt. Zaawansowane programowanie przy użyciu C++" \cite{BibliotekiQt} i "Qt5 Python GUI Programming Cookbook" \cite{QTPython}. %TODO: Również przydatnym zasobem wiedzy były książki zahaczające o tematykę aplikacji zdecentralizowanych.
+
+
+\section{Projekty użytkowników}
+\label{sec:ProjektyUzytkownikow}
+Wśród innych entuzjastów technologii, którzy dzielą się z innymi swoimi projektami, znaleźć można różnorakie programy, które w mniejszym lub większym stopniu spełniają założone przez nas cele pracy dyplomowej. Jednymi z najbliższych naszemu programowi są implementacje programów zdecentralizowanych, które posiadają wbudowany moduł planowania zadań, bądź moduł czatu. Przykładami takich programów są "ToDo-DApp" \cite{ToDo_DApp} i "DAPP-todo" \cite{DAPP_todo} w przypadku modułu planera oraz odnośnie modułu czatu "chatDapp" \cite{chatDapp} i "dappchat" \cite{dappchat}. Inną przydatną implementacją był "BlockChat" \cite{blockchat}, w którym była możliwość wysyłania wiadomości przez sieć, a następnie tworzenie z nich bloków opartych na dowodzie pracy jako algorytmie osiągania konsensusu. Inną implemntacją opartą o architekturę rozproszoną i blockchain jest \cite{PythonBlockchain}. To tylko kilka z przykładowych projektów, gdyż nie sposób jest ich zliczyć, lecz wszystkie z nich, jakie przejrzeliśmy, nie łączyły ze sobą obu tych części ze sobą.%TODO
+
+\section{Rozwiązania komercyjne}
+\label{sec:RozwiazaniaKomercyjne}
+By dopełnić swój stan wiedzy, przejrzeliśmy również jakie są dostępne obecnie na rynku komercyjne rozwiązania, które spełniają jedne z naszych celów. Warto wspomnieć, o platformie zrealizowanej ze środków publicznych (budżet około 5 milionów \cite{IDB})  "lubbezposrednio.pl" \cite{lubBezPosrednio}, która umożliwia głosowanie elektroniczne z wykorzystaniem technologii blockchain. Jednak, tak jak w poprzednich sekcjach nie da się znaleźć żadnego takiego produktu, który umożliwiałby wspomaganie planowania zadań i ich realizacji, który działałby w sposób zdecentralizowany oraz rozproszony. %TODO 
+
+\section{Podsumowanie stanu wiedzy}
+\label{sec:PodsumowanieWiedzy}
+Podsumowując wszystkie zabrane informacje o obecnym stanie wiedzy, nasuwa się następująca myśl - obecnie nie ma rozwiązania które spełniałoby wszystkie porządane cechy - wspomaganie planowania zadań i ich realizacji, umożliwienie pracy w sposób zdecentralizowany, działanie w architekturze rozproszonej, korzystanie z algorytmu osiągania konsensusu i zapewnienie poufności wiadomości użytkowników. Nasza praca dyplomowa ma na celu między innymi zmianę tego stanu rzeczy i wypuszczenie na świat pierwszego produktu w takim stylu.

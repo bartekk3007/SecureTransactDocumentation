@@ -2,6 +2,7 @@
 \usepackage{macra_xelatex}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{biblatex}
 
 \begin{document}
 % strony generowane z moja.pg
@@ -22,7 +23,7 @@
 \input{Chapters/Wstep}
 \input{Chapters/Stan_wiedzy}
 \input{Chapters/Wykorzystane_algorytmy_i_ich_charakterystyka}
-\input{Chapters/Dokumenty_elektroniczne}
+\input{Chapters/Frontend}
 \input{Chapters/Backend}
 \input{Chapters/Podsumowanie}
 
@@ -31,11 +32,13 @@
 \bibliographystyle{ieeetr}
 \bibliography{Chapters/Bibliography}
 
+
+
 % wykazy 
 \listoffigures
 \listoftables
 
+
 % dodatki
-\appendix
-\input{Chapters/DodatekA}  
+\input{Chapters/ImageRef}
 \end{document}
