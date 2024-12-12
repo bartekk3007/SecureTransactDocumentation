@@ -133,13 +133,14 @@ self.public_key = self.private_key.public_key()
 \end{lstlisting}
 
 Klucz publiczny jest generowany na podstawie klucza publicznego, gdyż w kryptografii asymetrycznej klucze są między sobą powiązane.
+\par Aby skutecznie połączyć się i komunikować się z innym użytkownikiem potrzebna jest znajomość jego klucza publicznego, dlatego w implementacji systemu przy nawiązywaniu połączenia podawany jest klucz publiczny (z którym nie ma żadnego zagrożenia bezpieczeństwa, aby został upubliczniony dla innych, w przeciwieństwie do klucza prywatnego). Przykład takiego klucza został udokumentowany przez \figurename{~\ref{fig:KluczPubliczny}}
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{Images/CodeX13.png}
     \caption{Wyświetlany w programie klucz publiczny}
     \label{fig:KluczPubliczny}
 \end{figure}
-\newline Aby skutecznie połączyć się i komunikować się z innym użytkownikiem potrzebna jest znajomość jego klucza publicznego, dlatego w implementacji systemu przy nawiązywaniu połączenia podawany jest klucz publiczny (z którym nie ma żadnego zagrożenia bezpieczeństwa, aby został upubliczniony dla innych, w przeciwieństwie do klucza prywatnego).
+\newline 
 
 W implementacji systemu pojawił się następującym problemem, mianowicie pożądane jest, aby wiadomości wysyłane przez sieć były łatwo dostępne dla innych użytkowników, którzy są członkami sieci, ale żeby ich treść nie była dostępna dla osób z zewnątrz (nie można ich przesyłać przez sieć jako zwykły tekst, ponieważ wtedy istniałaby możliwość podsłuchania i zostałby zaburzony jeden z filarów naszego systemu, czyli poufność wiadomości). Z tego powodu szyfrowanie wiadomości odbywa się w sposób symetryczny. Jednakże teraz może pojawić się pytanie czym będzie klucz w szyfrowaniu z pojedynczym kluczem i jak go ustalić w sposób bezpieczny. Tu jako rozwiązaniem jest szyfrowanie asymetryczne.
 
@@ -148,12 +149,17 @@ Każdy z użytkowników generuje losowy klucz sesji i w momencie powiększania s
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Wybieranie osoby}, label={lst:WybieranieOsoby}]
     def draw_person(self):
         keyList = []
-        for peer in self._peers:
+        for peer in self._peers: # peer to czlonek sieci
+            # peer.host to adres IP
+            # peer.port to natomiast numer portu
             keyList.append([peer.host, peer.port])
+        # W tym miejscu nalezy dodac samego siebie,
+        # gdyz w self._peers nie mamy siebie
         keyList.append([self.host, self.port])
-        keyList.sort(key=lambda x: x[1]) 
+        # Sortowanie wedlug numeru portu
+        keyList.sort(key=lambda x: x[1])
+        # Laczenie obu zmiennych do jednego duzego napisu
         keyRaw = " ".join(f"{x[0]}:{x[1]}" for x in keyList)
-        self.drawString = keyRaw
         numeric_seed = int.from_bytes(hashlib
                                         .sha256(keyRaw.encode('utf-8'))
                                         .digest())
@@ -166,8 +172,10 @@ Tak samo jak w przypadku Dowodu Stawki, mechanizm losowania osoby mającej wysy�
 
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Funkcja aktualizująca grupowy klucz sesji}, label={lst:AktualizowanieSesji}]
 def update_group_session_key(self):
+    # Zapisywanie klucza publicznego jako ciag bajtow
     self.EncryptedKBytes = encrypt_with_public_key
     (self.public_key, self.random_key)
+    # Zapisywanie klucza publicznego jako slowo
     self.EncryptedKString = base64.b64encode(self.
     EncryptedKBytes).decode('utf-8')
     for peer in self.peers:
@@ -180,8 +188,8 @@ Następnie po wylosowaniu osoby odpowiedzialnej za wysyłanie klucza, ta osoba r
 Każdy z odbiorców po otrzymaniu klucza sesyjnego zakodowanego przez klucz publiczny w formacie Base64, korzysta z funkcji konwertującej widocznej w \lstlistingname{ \ref{lst:KonwersjaKlucza}}. 
 
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Funkcja konwertująca klucz}, label={lst:KonwersjaKlucza}]
-def convert_key(base64keyEncypted):
-    byteKey = base64.b64decode(base64keyEncypted)
+def convert_key(base64keyEncrypted):
+    byteKey = base64.b64decode(base64keyEncrypted)
     decryptedSessionKey = me.private_key.decrypt(
         byteKey,
         padding.OAEP(
@@ -221,7 +229,6 @@ Dowód Stawki \ang.{Proof Of Stake} opiera się na założeniu, że wraz z posta
 
 Delegowany Dowód Stawki \ang{Delegated Proof Of Stake} działa w podobny sposób jak Dowód Stawki, lecz z tym zastrzeżeniem, że wszyscy użytkownicy sieci zamiast mieć możliwość bycia wylosowanym, głosują na jednego z dostępnych delegatów, by ta osoba podczas weryfikacji głosowała w ich imieniu. Nagrody za uczciwe głosowanie dostają delegaci. Mogą się nimi podzielić z użytkownikami, którzy na nich głosowali. Pomimo tego, że ta metoda konsensusu jest szybsza niż Dowód Stawki jej istotną wadą jest to, że w niej występuje o wiele większa centralizacji i zwykły użytkownik (o ile nie jest delegatem), nie ma bezpośredniej możliwości decydowania o tym, czy uważa dany blok za prawidłowy, czy też nie.
 Działanie Delegowanego Dowodu Stawki obrazuje \figurename{~\ref{fig:ConsensusDPOS}}
-\clearpage
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{Images/ConsensusDPOS.png}
@@ -253,9 +260,10 @@ def draw_verifier(self, group):
     for peer in group:
         person_stake_list.append(peer)
     person_stake_list.sort(key=lambda x: x.port)
+    # Pobieranie stawek od uczestnikow losowania
     stake_list = [x.stake for x in person_stake_list]
+    # Tworzenie jednego duzego slowa na podstawie numerow portow
     keyRaw = " ".join(str(x.port) for x in person_stake_list)
-    self.drawString = keyRaw
     numeric_seed = int.from_bytes(hashlib
                                   .sha256(keyRaw.encode('utf-8'))
                                   .digest())
@@ -306,7 +314,6 @@ Zamiast stosować skomplikowany algorytm połączonych ze sobą funkcji skrótu 
 
 Podpis cyfrowy opiera się na kryptografii asymetrycznej, gdzie każdy z użytkowników ma dwa klucze – klucz publiczny i klucz prywatny. W podpisie cyfrowym najpierw wykonuje się funkcję skrótu (w implementacji stosuje się SHA-256) na danych znajdujących się w bloku. Potem tą wartość szyfruje się kluczem prywatnym. Podpis cyfrowy, w przeciwieństwie do szyfrowania, jest wykonywany kluczem prywatnym. Jeśli weryfikator po otrzymaniu wartości funkcji skrótu podpisałby ją kluczem publicznym to żaden z użytkowników nie miałby możliwości zweryfikowania takiego podpisu, ponieważ do to tego potrzebny jest również drugi klucz, czyli klucz prywatny. Byłoby to sprzeczne z założeniem kryptografii asymetrycznej, według której klucz prywatny nie jest udostępniany innym.
 Zilustrowanie podpisu cyfrowego zostało przedstawione przez \figurename{~\ref{fig:DSJP}}:
-\clearpage
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/DSJPG.jpg}
@@ -319,20 +326,19 @@ Aby zweryfikować podpis cyfrowy, należy wygenerować funkcję skrótu z danych
 \subsection{Zabezpieczanie bloku w praktyce}
 \label{ssec:ZabezpieczenieBlokuPraktyka}
 
-Jeżeli dany użytkownik został wylosowany jako weryfikator, a następnie jeśli otrzymane wiadomości (od osoby wysyłającej ostatnią wiadomość w bloku) zgadzają się z wiadomościami, które posiada weryfikator to potwierdza je on za pomocą wystawienia podpisu cyfrowego. W tym celu zastosowano funkcję wypisaną w \lstlistingname{~\ref{lt:WysylaniePodpisu}}.
+Jeżeli dany użytkownik został wylosowany jako weryfikator, a następnie jeśli otrzymane wiadomości (od osoby wysyłającej ostatnią wiadomość w bloku) zgadzają się z wiadomościami, które posiada weryfikator to potwierdza je on za pomocą wystawienia podpisu cyfrowego. W tym celu zastosowano funkcję wypisaną w \lstlistingname{~\ref{lst:WysylaniePodpisu}}.
 
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Funkcja wysyłania podpisu weryfikatora}, label={lst:WysylaniePodpisu}]
 def sendDigitalSignature(self, ListOfJSON, me):
+    # Pobireanie wiadomosci z ich bufora
     jsonMessages = self.get_messages_block(ip())
+    # Wylanianie weryfikatora
     drawnVerifier = self.drawVerifier()
     if drawnVerifier == self.port:
-        me.remove_single_message_JSON(ip())
-        for count, jsonSingleMessage in enumerate(jsonMessages):
-            if jsonMessages[count] == ListOfJSON[0]:
-                length = len(ListOfJSON)
-                identicalResult = jsonMessages[count:count+length]
-                                == ListOfJSON
-                if identicalResult:
+        # Sprawdzanie czy wiadomosci u nas sa te same co otrzymane 
+        identicalResult = jsonMessages[count:count+length]
+                            == ListOfJSON
+        if identicalResult:
 \end{lstlisting}
 
 Następnie tworzony jest podpis cyfrowy na podstawie przekazanych wiadomości w formie łańcucha znaków, co widoczne jest w funkcji zaprezentowanej w \lstlistingname{~\ref{lst:TworzeniePodpisu}}.
@@ -365,7 +371,7 @@ Podział ciągu bajtów na trzybajtowe grupy, na następnie na cztery sześciobi
     \caption{Schemat Base64}
 	\label{fig:Base64Schema}
 \end{figure}
-Potem liczba ta konwertowana jest na jeden z sześćdziesięciu czterech znaków ASCII (jest to cyfra od 0 do 9, albo wielka litera od A do Z, albo mała litera od a do z, albo znak plusa lub równości). Odbywa się to zgodnie ze schematem, którzy pokazuje \ref{fig:Base64Coding}
+Potem liczba ta konwertowana jest na jeden z sześćdziesięciu czterech znaków ASCII (jest to cyfra od 0 do 9, albo wielka litera od A do Z, albo mała litera od a do z, albo znak plusa lub równości). Odbywa się to zgodnie ze schematem, którzy pokazuje \figurename{~\ref{fig:Base64Coding}}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Images/Base64Coding.jpg}
