@@ -245,7 +245,8 @@
 \newcommand{\listlistingsname}{Wykaz listingów kodu}
 \newlistof{listings}{lst}{\listlistingsname}
 \newcommand{\listings}[1]{%
-\addcontentsline{lst}{listings}{\protect\numberline{\thelisting}#1}\par}
+\addcontentsline{lst}{listings}{\protect\numberline{\thelstlisting}#1}\par}
+\setlength{\cftlistingsnumwidth}{2.5em}
 
 
 

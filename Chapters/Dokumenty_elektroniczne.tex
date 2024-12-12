@@ -73,7 +73,6 @@ Platforma programistyczna \texttt{QT} oraz zawarty w nim \texttt{QML} mają wiel
 \label{sec:PodstawyJezykaModelowaniaQT}
 \emph{Qt Modeling Language} to język deklaratywny, podobny do CSS i HTML, wchodzący w skład modułu \texttt{QtQuick} platformy programistycznej \texttt{Qt}. Aby zacząć używać \texttt{QML}, należy stworzyć plik \texttt{.qml}, w którym przykładowo możemy zawrzeć:
 
-\listings{Przykładowy kod QML}
 \begin{lstlisting}[language=QML, caption={Przykładowy kod QML}]
 import QtQuick 2.0
 
@@ -84,17 +83,18 @@ Rectangle {
     color: "red"
 }
 \end{lstlisting}
+\listings{Przykładowy kod QML}
 Kod ten tworzy kwadrat 100x100 w kolorze czerwonym. Struktura w \texttt{QML} jest hierarchiczna. Oznacza to, że wewnątrz komponentu \texttt{Rectangle} moglibyśmy dodać kolejny obiekt, który byłby tworzony względem rodzica - \texttt{Rectangle}.
 
 Dodatkowo \texttt{QML} umożliwia pisanie języka \texttt{Javascript} w odpowiednich polach,
 na przykład do kodu w kwadracie można dodać:
 
-\listings{Przykładowy Javascript}
 \begin{lstlisting}[language=QML, caption={Przykładowy Javascript}]
 Component.onCompleted: {
     console.log(kwadrat.width);
 }
 \end{lstlisting}
+\listings{Przykładowy Javascript}
 który wypisze w konsoli szerokość kwadratu.
 
 
@@ -112,7 +112,6 @@ w osobnych folderach:
 
 Omówię najpierw aspekt niestandardowych komponentów. W \texttt{QML} można tworzyć własne klasy komponentów.
 
-\listings{Przykładowa klasa w MyRectangle.qml}
 \begin{lstlisting}[language=QML, caption={Przykładowa klasa w MyRectangle.qml}]
 Rectangle {
     id: rectangle
@@ -121,14 +120,15 @@ Rectangle {
     height: 100
 }
 \end{lstlisting}
+\listings{Przykładowa klasa w MyRectangle.qml}
 Zaimportowanie tego w innym pliku \texttt{(Page1.qml)} umożliwi stworzenie
 wielu instancji klasy \texttt{MyRectangle}:
 
-\listings{Przykładowe użycie klasy MyRectangle}
 \begin{lstlisting}[language=QML, caption={Przykładowe użycie klasy MyRectangle}]
 MyRectangle {} //niebieski kwadrat 100x100
 MyRectangle {color: "red"} //czerwony kwadrat 100x100
 \end{lstlisting}
+\listings{Przykładowe użycie klasy MyRectangle}
 Pozwala to na uniknięcie redundancji w kodzie, gdy trzeba tworzyć
 wiele obiektów, różniących się, tylko niektórymi atrybutami.
 
@@ -137,10 +137,10 @@ użytkowników albo własnych przycisków, których w interfejsie jest pełno i 
 
 Reszta plików \texttt{.qml} stanowi osobne strony interfejsu. 
 Tworząc komponent StackView oraz używając:
-\listings{Ładowanie nowej strony}
 \begin{lstlisting}[language=QML, caption={Ładowanie nowej strony}]
 stackView.push("nazwa_pliku.qml");
 \end{lstlisting}
+\listings{Ładowanie nowej strony}
 można w bardzo prosty sposób załadować nową stronę.
 Taki podział (strona - plik) sprawia, że struktura interfejsu jest bardziej
 uporządkowana oraz logiczna i upraszcza to pracę z kodem.
@@ -161,7 +161,6 @@ Każdy z nich zawiera analogiczną logikę, więc omówię na przykładzie klasy
 
 W kodzie \texttt{QML} definiujemy zmienne stałe w sposób poniższy.
 
-\listings{ColorPalette.qml}
 \begin{lstlisting}[language=QML, caption={ColorPalette.qml}]
 import QtQuick 2.15
 
@@ -174,9 +173,9 @@ QtObject {
     readonly property color secondary100: "#FDCCFF"
     ...
 \end{lstlisting}
+\listings{ColorPalette.qml}
 
 Następnie w bardzo prosty sposób możemy używać tych stałych wartości w każdym miejscu w kodzie:
-\listings{Przykładowe użycie palety kolorów}
 \begin{lstlisting}[language=QML, caption={Przykładowe użycie palety kolorów}]
 import "../app_style"
 
@@ -188,6 +187,7 @@ ColorPalette { id: colorPalette }
     property string list_color: settings.light_mode ? colorPalette.background50 : colorPalette.background800
     ...
 \end{lstlisting}  
+\listings{Przykładowe użycie palety kolorów}
 
 \subsubsection{Komunikacja ze Stroną Logiczną}
 \label{sec:KomunikacjaZeStronaLogiczna}
@@ -216,38 +216,37 @@ Teraz pokazując kod z naszego projektu omówię na przykładzie jak wykorzystal
 Przykładowo, żeby dynamicznie obsłużyć zmianę znajomych w naszym programie, w stronie logicznej, wykorzystujemy atrybut \texttt{self.peers} który w klasie \texttt{User} zawiera tablicę innych obiektów tego typu, ostatecznie przekazujemy je do strony wizualnej i wypisujemy na ekranie.
 
 Tworzymy sygnał w klasie \texttt{User}:
-\listings{Sygnał User}
 \begin{lstlisting}[language=Python, caption={Sygnał User}]
 class User(QObject):
     peersChanged = Signal()
-\end{lstlisting}    
+\end{lstlisting}   
+\listings{Sygnał User}
 
 Definiujemy tablicę peers jako \texttt{Property}:
-\listings{Peers Property}
 \begin{lstlisting}[language=Python, caption={Peers Property}]
 @Property("QVariantList", notify=peersChanged)
     def peers(self):
         return self._peers
 \end{lstlisting}
+\listings{Peers Property}
 
 W pliku \texttt{main.py} przed inicjalnym załadowaniem interfejsu możemy przekazać uprzednio stworzony pojedyńczy obiekt \texttt{User}, gdzie u nas jest to obecny użytkownik programu. Teraz w \texttt{QML} możemy używać metod i atrybutów tej klasy dla tego obiektu.
 
-\listings{Przekazanie inicjalnego obiektu}
 \begin{lstlisting}[language=Python, caption={Przekazanie inicjalnego obiektu}]
 engine.rootContext().setContextProperty("user", user)
 \end{lstlisting}
+\listings{Przekazanie inicjalnego obiektu}
 
 Teraz w klasie \texttt{FriendList}, po załadowaniu komponentu należy podłączyć sygnał \texttt{peersChanged} z funkcją w języku \texttt{JavaScript}, która przetwarza dane znajomych z obiektu \texttt{User}.
 
-\listings{Podłączenie sygnału do slota w QML}
 \begin{lstlisting}[language=Python, caption={Podłączenie sygnału do slota w QML}]
 Component.onCompleted: {
         user.peersChanged.connect(updateUserModel);
 }
 \end{lstlisting}
+\listings{Podłączenie sygnału do slota w QML}
 Teraz każdy zapis \texttt{peersChanged.emit()} w \texttt{Pythonie} spowoduje wywołanie funkcji \texttt{updateUserModel()}, która u nas w projekcie, wygląda tak:
 
-\listings{Slot w QML obsługujący wyświetlanie zmienionej listy znajomych}
 \begin{lstlisting}[language=Python, caption={Slot w QML obsługujący wyświetlanie zmienionej listy znajomych}]
 function updateUserModel() {
     userModel.clear();
@@ -268,12 +267,12 @@ function updateUserModel() {
     }
 }
 \end{lstlisting}
+\listings{Slot w QML obsługujący wyświetlanie zmienionej listy znajomych}
 Dla uproszczenia można założyć, że komponent \texttt{userModel} to po prostu lista znajomych.
 \par
 W ten sposób możemy dynamicznie aktualizować wyświetlane dane w stronie wizualnej za każdym razem, gdy lista znajomych \texttt{(self.peers)} ulegnie zmianie.
 
 Na przykład funkcja odpowiadająca za usunięcie znajomego, która jest \texttt{Slotem} - wywoływana jest z poziomu strony wizualnej po kliknięciu przycisku, a strona logiczna informuje stronę wizualną o usunięciu znajomego za pomocą metody \texttt{.emit()}, a ten następnie przetwarza tą zmianę i wyświetla na ekranie:
-\listings{Przykładowe użycie sygnału dla listy znajomych}
 \begin{lstlisting}[language=Python, caption={Przykładowe użycie sygnału dla listy znajomych}]
 @Slot(str, int)
 def removeFromPeers(self, host, port):
@@ -283,6 +282,7 @@ def removeFromPeers(self, host, port):
             self.peersChanged.emit()
             break
 \end{lstlisting}
+\listings{Przykładowe użycie sygnału dla listy znajomych}
 
 \subsubsection{Renderowanie Obiektu Trójwymiarowego}
 \label{sec:RenderowanieObiektuTrójwymiarowego}
@@ -293,13 +293,12 @@ Nasza aplikacja renderuje jeden obiekt trójwymiarowy, istotne jest to, że korz
 \subsubsection{Responsywność interfejsu}
 \label{sec:ResponsywnośćInterfejsu}
 Aplikacja zapewnia responsywność interfejsu przy skalowaniu okna aplikacji. Elementy posiadają zdefiniowaną szerokość oraz wysokość, których wartości nie są stałą liczbą, lecz stanowią procentową wartość rozmiarów okna aplikacji.
-\listings{Przykładowy element o szerokości 1/6}
 \begin{lstlisting}[language=QML, caption={Przykładowy element o szerokości 1/6}]
 TaskElementInfo {
     rect_width: parent.width / 6
 \end{lstlisting}
+\listings{Przykładowy element o szerokości 1/6}
 Dodatkowo uzależniliśmy wielkości czcionek oraz odstępów od wielkości okna aplikacji definiując odpowiednie funkcje skalujące, które są używane wielokrotnie w całym kodzie strony wizualnej.
-\listings{Funkcja skalująca odstępy}
 \begin{lstlisting}[language=QML, caption={Funkcja skalująca odstępy}]
 readonly property var base_x: 1280.0
 readonly property var base_y: 720.0
@@ -310,6 +309,7 @@ function preserveSpacingProportion(spacing, width, height, axis) {
    else return height / base_y * spacing;
 }
 \end{lstlisting}
+\listings{Funkcja skalująca odstępy}
 
 \subsection{Pomoce naukowe związane z platformą programistyczną QT i językiem modelowania QT}
 \label{sec:PomoceNaukoweQML}
