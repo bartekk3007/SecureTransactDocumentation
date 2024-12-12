@@ -216,7 +216,7 @@ Działanie Dowodu Pracy obrazuje \figurename{~\ref{fig:ConsesnsusProofOfWork}}
 \end{figure}
 \subsection{Dowód Stawki}
 \label{ssec:PoS}
-Dowód Stawki \ang.{Proof Of Stake} opiera się na założeniu, że wraz z postawioną większą stawką przez osobę rośnie prawdopodobieństwo wybrania jej jako weryfikatora. Uściślając metoda Dowodu Stawki przebiega tak, że po zebraniu odpowiedniej liczby wiadomości, tworzony blok, lecz aby mogło do tego dojść, najpierw weryfikatorzy decydują czy wiadomości z bloku są autentyczne i nikt ich wcześniej nie zmodyfikował. Jeśli większość weryfikatorów postanowi, żeby zbiór wiadomości jest prawidłowy, tworzony jest nowy blok. Weryfikatorzy, którzy głosowali uczciwie są nagradzani za swój głos poprzez podarowanie im określonej ilości kryptowaluty \ang{stacking}, a weryfikatorzy, którzy zagłosowali nieuczciwie, karani są poprzez zabranie postawionej przez nich stawki \ang{slashing}. Wydawać by się mogło, że ta metoda promuje bogatych użytkowników i umożliwia im oszustwa, lecz w rzeczywistości osoby bogate (te który postawiły najwyższą stawkę) są najbardziej odstraszane od oszustwa. W przypadku nieuczciwego zachowania podczas weryfikacji potencjalnego bloku są oni najbardziej karani (ponieważ postawili największą stawkę). Dodatkowo ta metoda konsensusu zapewnia duży stopień decentralizacji (w przeciwieństwie do tego, do czego w praktyce dochodzi w Dowodzie Pracy). W metodzie tej nie da się oszukać poprzez sytuację, że jedna osoba tworzy wiele kont (sytuacja określana też jako tworzenie multikont), ponieważ w metodzie konsensusu Dowodu Stawki nie chodzi o to, ilu użytkowników jest w sieci, a ile postawili oni stawki. Działanie Dowodu Stawki przedstawione jest przez \figurename{~\ref{fig:ConsensusPOS}}
+Dowód Stawki \ang{Proof Of Stake} opiera się na założeniu, że wraz z postawioną większą stawką przez osobę rośnie prawdopodobieństwo wybrania jej jako weryfikatora. Uściślając metoda Dowodu Stawki przebiega tak, że po zebraniu odpowiedniej liczby wiadomości, tworzony blok, lecz aby mogło do tego dojść, najpierw weryfikatorzy decydują czy wiadomości z bloku są autentyczne i nikt ich wcześniej nie zmodyfikował. Jeśli większość weryfikatorów postanowi, żeby zbiór wiadomości jest prawidłowy, tworzony jest nowy blok. Weryfikatorzy, którzy głosowali uczciwie są nagradzani za swój głos poprzez podarowanie im określonej ilości kryptowaluty \ang{stacking}, a weryfikatorzy, którzy zagłosowali nieuczciwie, karani są poprzez zabranie postawionej przez nich stawki \ang{slashing}. Wydawać by się mogło, że ta metoda promuje bogatych użytkowników i umożliwia im oszustwa, lecz w rzeczywistości osoby bogate (te który postawiły najwyższą stawkę) są najbardziej odstraszane od oszustwa. W przypadku nieuczciwego zachowania podczas weryfikacji potencjalnego bloku są oni najbardziej karani (ponieważ postawili największą stawkę). Dodatkowo ta metoda konsensusu zapewnia duży stopień decentralizacji (w przeciwieństwie do tego, do czego w praktyce dochodzi w Dowodzie Pracy). W metodzie tej nie da się oszukać poprzez sytuację, że jedna osoba tworzy wiele kont (sytuacja określana też jako tworzenie multikont), ponieważ w metodzie konsensusu Dowodu Stawki nie chodzi o to, ilu użytkowników jest w sieci, a ile postawili oni stawki. Działanie Dowodu Stawki przedstawione jest przez \figurename{~\ref{fig:ConsensusPOS}}
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{Images/ConsensusPOS.png}
@@ -239,7 +239,8 @@ Działanie Delegowanego Dowodu Stawki obrazuje \figurename{~\ref{fig:ConsensusDP
 \subsection{Dowód Pojemności}
 \label{ssec:PoC}
 W Dowodzie Pojemności \ang{Proof Of Capacity} każdy z uczestników posiada pliki wykresów, w których są już wcześniej obliczone wartości matematyczne. Podczas tworzenia nowego bloku ogłaszana jest pewna wartość liczbowa i uczestnicy przeszukują swoje pliki wykresów, aby znaleźć wartość najbardziej do niej pasująca. Użytkownik, który będzie miał wartości najbliżej tej poszukiwanej zostanie nagrodzony kryptowalutą. Zaletą tej metody konsensusu jest fakt, że każdy może wziąć w niej udział, ale w rzeczywistości realne szanse mają osoby o ogromnej pojemności pamięciowej. Prowadzi to do tworzenia się dużych grup/związków tworzonych przez różne organizacje (na przykład firmy), co prowadzi do dążenia do centralizacji. Działanie Dowodu Pojemności pokazuje \figurename{~ \ref{fig:ConsensusPOC}}
-\begin{figure}[hb]
+\clearpage
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.65\textwidth]{Images/ConsensusPOC.png}
     \caption{Schemat działania Dowodu Pojemności}
@@ -306,7 +307,8 @@ W metodzie konsensusu Dowód Pracy poprawność bloku sprawdza się poprzez por�
     \caption{Działanie funkcji skrótu w Dowodzie Pracy}
     \label{fig:ProofOfWorkHash}
 \end{figure}
-
+\newline{}
+\newline{}
 Zamiast stosować skomplikowany algorytm połączonych ze sobą funkcji skrótu w implementacji systemu, postanowiono skorzystać z innej metody, również stosowanej w innych systemach kryptograficznych. Jest to podpis cyfrowy.
 
 \subsection{Zabezpieczanie bloku poprzez podpis cyfrowy}

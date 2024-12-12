@@ -1,7 +1,7 @@
 \chapter{Architektura oprogramowania i zaplecze aplikacji}
 \label{chap:ZapleczeAplikacji}
 \textit{Autorzy: Piotr Noga, Maksym Nowak}
-\par Niemniej ważnym elementem naszej pracy, od przedstawionej w rozdziale \nameref{chap:InterfejsGraficznyUżytkownika} warstwy prezentacji danych, było zaimplementowanie systemu, który byłby odpowiedzialny za przechowywanie wszelkich danych, które są wykorzystywane w trakcie działania aplikacji oraz za logikę biznesową, umożliwiającą działanie algorytmów zaprezentowanych w rozdziale \nameref{sec:POSUzycie} czy też odpowiednie przetwarzanie informacji między użytkownikiem a wspomnianą wcześniej warstwą przechowywania danych.
+\par Niemniej ważnym elementem naszej pracy, od przedstawionej w rozdziale \nameref{chap:InterfejsGraficznyUżytkownika} warstwy prezentacji danych, było zaimplementowanie systemu, który byłby odpowiedzialny za przechowywanie wszelkich danych, które są wykorzystywane w trakcie działania aplikacji oraz za logikę biznesową, umożliwiającą działanie algorytmów zaprezentowanych w rozdziale \nameref{chap:Algorytmy} czy też odpowiednie przetwarzanie informacji między użytkownikiem a wspomnianą wcześniej warstwą przechowywania danych.
 Tę sekcję aplikacji przyjęło się w nomenklaturze informatycznej nazywać zapleczem.
 
 \section{Architektura oprogramowania}
@@ -10,7 +10,7 @@ Przed opisem zaplecza należy się zagłębić nad architekturą oprogramowania,
 
 \subsection{Architektura rozproszona}
 \label{sec:Rozproszenie}
-Jednym z założeń w naszej pracy jest zastosowanie architektury rozproszonej. Celem tego założenia jest to, aby można było zapisywać dane w taki sposób, żeby nie były one przechowywane tylko w jednym miejscu, gdyż mogłoby to doprowadzić do ich utraty, chociażby w przypadku awarii systemu. Taką potrzebę można spełnić poprzez zapisywanie danych, które są dystrybuowane na inne komputery poprzez sieć P2P. 
+Jednym z założeń w naszej pracy jest zastosowanie architektury rozproszonej. Celem tego założenia jest to, aby można było zapisywać dane w taki sposób, żeby nie były one przechowywane tylko w jednym miejscu, gdyż mogłoby to doprowadzić do ich utraty, chociażby w przypadku awarii systemu. Taką potrzebę można spełnić poprzez zapisywanie danych, które są dystrybuowane na inne komputery poprzez sieć P2P. Przykład takiej sieci przedstawia \figurename{~\ref{fig:P2P}}.
 \begin{figure}[!ht]
 	\centering
 		\includegraphics[width=0.3\textwidth]{Images/P2P.jpg}
@@ -18,7 +18,7 @@ Jednym z założeń w naszej pracy jest zastosowanie architektury rozproszonej. 
 	\label{fig:P2P}
 \end{figure}
 \newline Każdy z komputerów połączonych do takiej sieci zawierałyby swoją własną kopię danych, dzięki czemu przy utracie danych na którymś z komputerów, można je odzyskać poprzez pobranie ich od innego użytkownika.
-Istnieje również alternatywne rozwiązanie tego założenia, mianowicie przechowywanie danych na różnych serwerach. Jest to w obecnych czasach częściej spotykane rozwiązanie, lecz nie spełnia ono kolejnej potrzeby, która jest opisana w następnej sekcji.
+Istnieje również alternatywne rozwiązanie tego założenia, mianowicie przechowywanie danych na różnych serwerach, co widać w przykładzie zobrazowanym przez \figurename{~\ref{fig:SiecSerwery}}. Jest to w obecnych czasach częściej spotykane rozwiązanie, lecz nie spełnia ono kolejnej potrzeby, która jest opisana w następnej sekcji.
 \begin{figure}[!ht]
 	\centering
 		\includegraphics[width=0.3\textwidth]{Images/Siec_serwery.jpg}
@@ -38,7 +38,7 @@ Kolejnym wymogiem, jaki powinien być zrealizowany w naszej pracy, jest wykonani
 	\caption{Diagram przypadków użycia}
 	\label{fig:PrzypadkiUzycia}
 \end{figure}
-Opis przypadków użycia:
+Opis przypadków użycia na podstawie diagramu, który pokazuje \figurename{~\ref{fig:PrzypadkiUzycia}}:
 \begin{itemize}
 \item {Wysłanie prośby o połączenie z innym użytkownikiem} - Użytkownik podaje adres ip i port innego użytkownika i wysyła do niego prośbę o połączenie. Jeśli drugi użytkownik zaakceptuje, zostanie nawiązane połączenie i zostanie dodany do listy połączonych użytkowników.
 \item {Akceptacja/Odrzucenie prośby o połączenie} - Użytkownik po otrzymaniu prośby o połączenie może ją zaakceptować bądź odrzucić.
