@@ -66,10 +66,12 @@ Alternatywą do HTTP jest IPFS - InterPlanetary File System, który na pierwszy 
 	\label{fig:wysylanieWiadomosci}
 \end{figure}
 \par Po przedstawieniu cech protokołu HTTP i uzasadnieniu jego wyboru, pora przejść do omówienia tego, jak on jest w praktyce wykorzystywany w naszej pracy. Komunikacja po tym protokole dostępna jest za sprawą uruchamianego w naszym programie serwera. Odpowiedzialna jest za to biblioteka dostępna w języku Python - \textit{Flask}. Umożliwia on otrzymywanie danych od innych użytkowników jak również odsyłanie im odpowiedzi wraz z żądanymi informacjami. Diagram sekwencji przedstawiony w \figurename{ \ref{fig:wysylanieWiadomosci}} posłuży tutaj jako ilustracja przykładu takiej komunikacji. Sytuacja na tym diagramie jest następująca: Użytkownik A pragnie wysłać wiadomość do Użytkownika B, a ten chce wyświetlić jej treść. W celu uproszczenia diagramu zakładamy, że obaj użytkownicy mają otwarty czat ze sobą, zatem interfejs graficzny nie przesyła informacji, jakiego czatu dotyczą dane wiadomości. Na początek Użytkownik A wypełnia w interfejsie graficznym aplikacji pole wiadomości jej treścią i zleca programowi jej wysłanie. Warstwa prezentacji przesyła odpowiednie informacje do logiki biznesowej aplikacji, tj. treść wiadomości. Następnie logika biznesowa w ramach bezpieczeństwa szyfruje wiadomość kluczem prywatnym Użytkownika A. W tym momencie następuje komunikacja między użytkownikami za pomocą protokołu HTTP, gdyż logika biznesowa zleca serwerowi, uruchomionemu w oddzielnym wątku, wysłanie zapytania HTTP do serwera Użytkownika B pod odpowiedni adres. Struktura adresu wygląda następująco:
+\listings{Struktura adresu docelowego}
 \begin{lstlisting}[caption={Struktura adresu docelowego}]
 http://<Adres IP>:<Numer portu>/<funkcja_do_wywolania>
 \end{lstlisting}
 W tym konkretnym przypadku przedstawionym na diagramie, w naszym projekcie byłby to adres
+\listings{Adres docelowy wywołania funkcji odbierania wiadomości}
 \begin{lstlisting}[caption={Adres docelowy wywołania funkcji odbierania wiadomości}]
 http://<Adres IP>:<Numer portu>/receive_message
 \end{lstlisting}
@@ -83,6 +85,7 @@ Trzecią z warstw aplikacji, jakie można wyodrębnić zaraz po warstwie prezent
 \subsection{Łańcuch bloków}
 \label{sec:Blockchain}
 Użycie sieci P2P w naszej pracy sprzyja temu, by skorzystać ze struktury danych, która jest przystosowana do takiego rozwiązania. Jedną z takich struktur jest łańcuch bloków \ang{Blockchain}. Jest to jednokierunkowa lista, w której nowe rekordy, zwane blokiem, są przyłączane zawsze na jej końcu. Każdy z tych bloków jest odpowiednio przywiązany do ich sąsiadów. Jest to możliwe dzięki zastosowaniu odpowiednio zaszyfrowanego skrótu z treści \ang{Hash} poprzedzającego go bloku. Przywiązanie te najprościej będzie przedstawić na podstawie naszego kodu, w którym widoczne są pola, jakie zawiera obiekt klasy Block.
+\listings{Pola obiektu klasy Block}
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Pola obiektu klasy Block}]
 self.index
 self.data

@@ -43,7 +43,8 @@ Jak wyglądają operacje w algorytmie AES pokazane jest na rysunku \ref{fig:AES2
 
 \subsection{Użycie szyfrowania symetrycznego w praktyce}
 
-\begin{lstlisting}
+\listings{Szyfrowanie danych}
+\begin{lstlisting}[caption={Szyfrowanie danych}]
 def encrypt_data_ecb(data, key):
     cipher = AES.new(key, AES.MODE_ECB)
     encrypted_data = cipher.encrypt(pad(data.encode(), AES.block_size))
@@ -52,7 +53,8 @@ def encrypt_data_ecb(data, key):
 \end{lstlisting}
 Szyfrowanie danych odbywa się przez funkcję, której parametrami są tekst podany do zaszyfrowania oraz klucz sesyjny. W samej funkcji najpierw tworzony jest obiekt szyfrujący AES, który jest ustawiony w trybie wiązania bloków zaszyfrowanych ECB - Electronic CodeBook (Tryb Elektronicznej Książki Kodowej). Dlaczego akurat w takim trybie, a nie na przykład CBC - Cipher Block Chaining (Tryb Wiązania Bloków Zaszyfrowanych), CFB - Cypher Feed Back (Tryb Sprzężenia Zwrotnego Szyfrogramu) czy OFB - Output Feedback (Tryb Sprzężenia Zwrotnego Wyjścia) - powodem jest charakterystyka tego trybu - pożądaną cechą w systemie jest to, aby był on deterministyczny, co wyklucza elementy losowe, a ECB jako jedyny z powszechnie używanych trybów wiązania bloków zaszyfrowanych nie korzysta z losowych wektorów inicjalizujących. Następnie szyfrujemy z wykorzystaniem wcześniej stworzonego obiektu szyfrującego, a wynik tej operacji przekonwertowujemy do łańcucha znaków za pomocą Base64.
 
-\begin{lstlisting}
+\listings{Deszyfrowanie danych}
+\begin{lstlisting}[caption={Deszyfrowanie danych}]
 def decrypt_data_ecb(encrypted_base64, key):
     encrypted_data = base64.b64decode(encrypted_base64)
     cipher = AES.new(key, AES.MODE_ECB)
@@ -131,7 +133,8 @@ Ukazanie RSA w skomplikowanych systemach na rysunku \ref{fig:RSASieci}
 \end{figure}
 
 \subsection{Użycie szyfrowania asymetrycznego w praktyce}
-\begin{lstlisting}
+\listings{Generowanie klucza prywatnego}
+\begin{lstlisting}[caption={Generowanie klucza prywatnego}]
 self.private_key = rsa.generate_private_key(
             public_exponent=65537,
             key_size=2048,
@@ -141,7 +144,8 @@ self.private_key = rsa.generate_private_key(
 
 Każdy z użytkowników posiada wygenerowany klucz prywatny, jest on generowany losowo i niezależnie od innych. Inni użytkownicy nie wiedzą jaki jest klucz prywatny danego użytkownika. W stosowanej przez implementacji wykładnik publiczny ma zalecaną wartość dosyć małej liczby pierwszej (65537), a długość klucza to 2024 bitów, co sprawia, że algorytm jest wydajniejszy (to pokazuje różnicę między kryptografią asymetryczną, a kryptografią jednego klucza, gdzie jego długość w standardowych formatach AES to co najwyżej 256 bitów).
 
-\begin{lstlisting}
+\listings{Generowanie klucza publicznego}
+\begin{lstlisting}[caption={Generowanie klucza publicznego}]
 self.public_key = self.private_key.public_key()
 \end{lstlisting}
 
@@ -158,7 +162,8 @@ W implementacji systemu pojawił się następującym problemem, mianowicie poż�
 
 Każdy z użytkowników generuje losowy klucz sesyjny i w momencie powiększania się grupy (dodania nowego użytkownika) lub jej się zmniejszenia (usunięcie jednego z użytkowników) klucz sesyjny generuje się na nowo. Potem jeden z użytkowników jest w momencie zmiany składu grupy wybierany jako osoba mająca rozesłać klucz sesyjny.
 
-\begin{lstlisting}
+\listings{Wybieranie osoby mającej rozesłać klucz sesyjny}
+\begin{lstlisting}[caption={Wybieranie osoby mającej rozesłać klucz sesyjny}]
 def drawPerson(self):
     keyList = []
     for peer in self.peers:
@@ -178,7 +183,8 @@ def drawPerson(self):
 
 Tak samo jak w przypadku Dowodu Stawki mechanizm losowania osoby mającej wysyłać klucz sesyjnym innym musi być taka sama dla wszystkich, tak oby osoba wysyłająca była w każdej instancji programu taka sama, inaczej użytkownicy mieliby różne klucze sesyjne co uniemożliwiłoby komunikację. Tworzy się lista użytkowników, którą następnie jest sortowana, aby każdy program miał ją w takiej samej postaci. Potem lista zamieniana jest na łańcuch znaków i używając deterministycznej funkcji skrótu (zwracającej te same wyniki dla tych samych danych) hashlib.sha256 (a nie na przykład domyślnej funkcji hash() w Pythonie, która nie jest deterministyczna) uzyskiwana jest wartość, która będzie ziarnem dla generatora liczb losowych i następnie wylosowany przez ten generator użytkownik (za pomocą standardowej funkcji random.choice()) będzie taki sam we wszystkich instancjach programu.
 
-\begin{lstlisting}
+\listings{Uaklualnienie klucza sesyjnego}
+\begin{lstlisting}[caption={Uaklualnienie klucza sesyjnego}]
 def update_group_session_key(self):
     self.EncryptedKBytes = encrypt_with_public_key
     (self.public_key, self.random_key)
@@ -192,7 +198,8 @@ def update_group_session_key(self):
 \end{lstlisting}
 Następnie po wylosowaniu osoby będącej odpowiedzialną za wysyłanie klucza ta osoba rozsyła do siebie klucz sesyjny zaszyfrowany swoim własnym kluczem publicznym, a do innych osób w sieci (biorąc pod uwagę niezmiennik, że każdy z każdym w danej grupie jest połączony) rozsyła klucz sesyjny zaszyfrowany kluczem publicznym danej osoby (właśnie dlatego, przy nawiązywaniu połączenia klucz podawany jest klucz publiczny – inaczej nie dało by się przekazać innym klucza sesyjnego z zachowaniem poufności). Dodatkową informacją godną uwagi jest fakt, że przy wysyłaniu innym zakodowanego klucza sesyjnego jest on poprzedzany nagłówkiem w celu łatwiejszego odebrania przez adresatów wiadomości.
 
-\begin{lstlisting}
+\listings{Deszyfrowanie klucza sesyjnego}
+\begin{lstlisting}[caption={Deszyfrowanie klucza sesyjnego}]
 def convert_key(base64keyEncypted):
     byteKey = base64.b64decode(base64keyEncypted)
     decryptedSessionKey = me.private_key.decrypt(
@@ -265,7 +272,8 @@ Działanie Dowodu Pojemności na grafice \ref{fig:ConsensusPOC}
 Spośród wszystkich dostępnych metod konsensusu wybrano tą która z pozoru wydaje się być nieuczciwie faworyzującą bogatszych uczestników. Dowód Stawki jest jedynym z wyżej wymienionych algorytmów, który nie ma w sobie istotnej wady jaką jest dążenie do centralizacji wywołane stosowaniem konkretnej metody konsensusu – centralizacji jednostek obliczeniowych (Dowód Pracy), centralizacji pojemności pamięciowej (Dowód Pojemności) czy centralizacji możliwość decydowania o poprawności danego bloku jedynie dla wybranej grupy osób (Delegowany Dowód Stawki). Dowód Stawki w przeciwieństwie do niektórych z innych algorytmów osiągania  konsensusu nie powoduje nadmiernego zużywania zasobów – prądu używanego do obliczeń w Dowodzie Pracy i przestrzeni dyskowej (w tym sprzętu elektronicznego) by zwiększyć ilość posiadanej pamięci w Dowodzie Pojemności. Wracając do zarzutu stawianego Dowodowi Stawki na początku akapitu co prawda najbogatsi (posiadający największą stawkę) mają największe szanse na zostanie weryfikatorem, ale w przypadku oszustwa są oni najmocniej karani, ponieważ tracą całą swoją postawioną stawkę (zjawisko to nazywa się slashing).
 
 \subsection{Użycie algorytmów osiągania konsenusu w praktyce}
-\begin{lstlisting}
+\listings{Wybieranie osoby mającej zostać weryfikatorem}
+\begin{lstlisting}[caption={Wybieranie osoby mającej zostać weryfikatorem}]
 def drawVerifier(self):
     personStakeList = []
     for peer in self.peers:
@@ -288,14 +296,18 @@ def drawVerifier(self):
     return chosen_port
 \end{lstlisting}
 Przy wybieraniu osoby, która będzie weryfikatorem korzysta się z funkcji, która ma go wyłonić kierując się zasadami z Dowodem Stawki. Problemem jaki nasuwa się przy implementowaniu funkcji jest to, jak sprawić, że każdy będzie miał wylosowanego tego samego weryfikatora, mimo tego, że uruchomienia programu są niezależne od siebie. Wywołanie u każdego z użytkowników zwykłej funkcji losującej wydaje się być nasuwającym się rozwiązaniem, lecz w rzeczywistości może doprowadzić to do sytuacji, gdzie różne osoby będę uznawały różnych członków sieci za weryfikatorów, co jest sytuacją, której chcemy uniknąć. Aby rozwiązać ten problem trzeba posłużyć się niezmiennikiem jakim jest założenie, że przy dowolnej komunikacji grupowej każdy z członków jest połączony z innymi użytkownikami w grupie (na tym polega rozmowa grupowa), ta sytuacja może być chwilowo zaburzona, ponieważ, łączenie się nie zawsze występuje w tym samym czasie, ale system domyślnie dąży do tego stanu.
-\begin{lstlisting}
+
+\listings{Zamiana łańcucha znaków na wartość liczbową}
+\begin{lstlisting}[caption={Zamiana łańcucha znaków na wartość liczbową}]
 numericSeed = int.from_bytes(hashlib.sha256(keyRaw
 .encode('utf-8')).digest())
 random.seed(numeric_seed)
 \end{lstlisting}
+
 Dalej w kodzie z pozoru mało istotna funkcja skrótu, która zamienia łańcuch znaków na wartość liczbową. W rzeczywistości jest bardzo ważna, ponieważ jeśli jest ona niedeterministyczna (dla tego samego łańcucha znaków wylosuje ona różną wartość liczbową) to wyłanianie weryfikatora będzie mijać się z celem, bo wtedy nie wszyscy będą mieli tego samego weryfikatora. Skoro zostało wspomniane, dlaczego deterministyczna funkcja skrótu jest tak ważna, to warto wspomnieć, że domyślna funkcja skrótu w Pythonie – hash() – nie jest funkcją deterministyczną, ponieważ wprowadzono do niej mechanizm losowości skrótu (angielski - hash randomization) który dodaje do funkcji skrótu losową ,,sól”. Z tego powodu w systemie zastosowano metodę hashlib.sha256(), która jest deterministyczna. Następnie tak utworzoną liczbą ustawiamy ziarno generatora liczb pseudolosowych tak, aby generator dla tych samych danych wejściowych dał nam takie same wyniki.
 
-\begin{lstlisting}
+\listings{Losowanie weryfikatora}
+\begin{lstlisting}[caption={Losowanie weryfikatora}]
 chosen_port = random.choices(personSingleList, 
 weights=stakeSingleList, k=1)[0]
 return chosen_port
@@ -339,7 +351,8 @@ Aby zweryfikować podpis cyfrowy należy wygenerować hash z danych znajdującyc
 
 \subsection{Zabezpieczanie bloku w praktyce}
 
-\begin{lstlisting}
+\listings{Wysyłanie podpisu elektronicznego}
+\begin{lstlisting}[caption={Wysyłanie podpisu elektronicznego}]
 def sendDigitalSignature(self, ListOfJSON, me):
     jsonMessages = self.get_messages_block(ip())
     drawnVerifier = self.drawVerifier()
@@ -354,7 +367,8 @@ def sendDigitalSignature(self, ListOfJSON, me):
 \end{lstlisting}
 Jeżeli dany użytkownik został wylosowany jako weryfikator, a następnie jeśli otrzymane wiadomości (od osoby wysyłającej ostatnią wiadomość w bloku) zgadzają się z wiadomościami, które posiada weryfikator to potwierdza je on za pomocą wystawienia podpisu cyfrowego.
 
-\begin{lstlisting}
+\listings{Tworzenie podpisu elektronicznego}
+\begin{lstlisting}[caption={Tworzenie podpisu elektronicznego}]
 def createSignature(self, dataStrng):
     data = dataStrng.encode('utf-8')
     signature = self.private_key.sign(

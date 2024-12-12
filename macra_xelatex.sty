@@ -241,6 +241,12 @@
 \newcommand{\equations}[1]{%
 \addcontentsline{equ}{equations}{\protect\numberline{\theequation}#1}\par}
 
+%wykaz listingów kodu
+\newcommand{\listlistingsname}{Wykaz listingów kodu}
+\newlistof{listings}{lst}{\listlistingsname}
+\newcommand{\listings}[1]{%
+\addcontentsline{lst}{listings}{\protect\numberline{\thelisting}#1}\par}
+
 
 
 
