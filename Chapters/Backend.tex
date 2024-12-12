@@ -31,6 +31,31 @@ Istnieje również alternatywne rozwiązanie tego założenia, mianowicie przech
 \label{sec:Decentralizacja}
 Kolejnym wymogiem, jaki powinien być zrealizowany w naszej pracy, jest wykonanie aplikacji, która będzie działać w sposób zdecentralizowany. Oznacza to, że żaden użytkownik nie może mieć kontroli nad innymi, a co za tym idzie, nie ma żadnej scentralizowanej jednostki, która może zarządzać przepływem danych w sieci. Z tego powodu drugie rozwiązanie, które zostało wspomniane w poprzedniej sekcji, czyli wykorzystanie różnych serwerów do przechowywania danych, nie może zostać wykorzystane w naszej implementacji. Wynika to z faktu, iż osoby zarządzające serwerami mogą arbitralnie zablokować niepożądanym w ich ocenie osobom dostęp do zasobów danych.
 
+\section{Przypadki użycia}
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=1\textwidth]{Images/PrzypadkiUzycia.png}
+	\caption{Diagram przypadków użycia}
+	\label{fig:PrzypadkiUzycia}
+\end{figure}
+\textbf{Opis przypadków użycia:}
+
+
+\textbf{Wysłanie prośby o połączenie z innym użytkownikiem} - Użytkownik podaje adres ip i port innego użytkownika i wysyła do niego prośbę o połączenie. Jeśli drugi użytkownik zaakceptuje, zostanie nawiązane połączenie i zostanie dodany do listy połączonych użytkowników.
+
+\textbf{Akceptacja/Odrzucenie prośby o połączenie} - Użytkownik po otrzymaniu prośby o połączenie może ją zaakceptować bądź odrzucić.
+
+\textbf{Wysłanie wiadomości} - Użytkownik wysyła wiadomość tekstową do drugiego użytkownika z którym jest połączony.
+
+\textbf{Stworzenie projektu} - Użytkownik tworzy projekt do którego jest automatycznie dodany. Podczas tworzenia projektu użytkownik nadaje mu nazwę i ma możliwość dodania do niego innych użytkowników (przypadek dodanie użytkownika do projektu).
+
+\textbf{Dodanie użytkownika do projektu} - Podczas tworzenia projektu użytkownik może dodać do niego innych, połączonych z nim, użytkowników wybierając ich z listy.
+
+\textbf{Dodanie zadania do projektu} - Użytkownik ma możliwość dodania zadania do danego projektu. Użytkownik podaje: nazwę zadania, przypisanych użytkowników(przypadek Przypisanie użytkownika do zadania), priorytet, termin wykonania, oznaczenia.
+
+\textbf{Przypisanie użytkownika do zadania} - Podczas dodawania zadania do projektu(przypadek Dodanie zadania do projektu) użytkownik musi przypisać co najmniej jednego użytkownika przypisanego do danego projektu(z listy).
+
+
 
 \section{Logika biznesowa}
 \label{sec:LogikaBiznesowa}
