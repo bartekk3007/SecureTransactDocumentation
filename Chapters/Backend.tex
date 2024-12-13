@@ -1,7 +1,7 @@
 \chapter{Architektura oprogramowania i zaplecze aplikacji}
 \label{chap:ZapleczeAplikacji}
 \textit{Autorzy: Piotr Noga, Maksym Nowak}
-\par Niemniej ważnym elementem naszej pracy, od przedstawionej w rozdziale \nameref{chap:InterfejsGraficznyUżytkownika} warstwy prezentacji danych, było zaimplementowanie systemu, który byłby odpowiedzialny za przechowywanie wszelkich danych, które są wykorzystywane w trakcie działania aplikacji oraz za logikę biznesową, umożliwiającą działanie algorytmów zaprezentowanych w rozdziale \nameref{sec:POSUzycie} czy też odpowiednie przetwarzanie informacji między użytkownikiem a wspomnianą wcześniej warstwą przechowywania danych.
+\par Niemniej ważnym elementem naszej pracy, od przedstawionej w rozdziale \nameref{chap:InterfejsGraficznyUżytkownika} warstwy prezentacji danych, było zaimplementowanie systemu, który byłby odpowiedzialny za przechowywanie wszelkich danych, które są wykorzystywane w trakcie działania aplikacji oraz za logikę biznesową, umożliwiającą działanie algorytmów zaprezentowanych w rozdziale \nameref{chap:Algorytmy} czy też odpowiednie przetwarzanie informacji między użytkownikiem a wspomnianą wcześniej warstwą przechowywania danych.
 Tę sekcję aplikacji przyjęło się w nomenklaturze informatycznej nazywać zapleczem.
 
 \section{Architektura oprogramowania}
@@ -9,8 +9,8 @@ Tę sekcję aplikacji przyjęło się w nomenklaturze informatycznej nazywać za
 Przed opisem zaplecza należy się zagłębić nad architekturą oprogramowania, gdyż to od niej tak naprawdę zależy, jak zostanie on zaimplementowany. Architektura ta wskazuje m.in. potrzeby jakie ma spełniać program oraz w jaki sposób powinien je realizować \cite{AO}.
 
 \subsection{Architektura rozproszona}
-\label{sec:Rozproszenie}
-Jednym z założeń w naszej pracy jest zastosowanie architektury rozproszonej. Celem tego założenia jest to, aby można było zapisywać dane w taki sposób, żeby nie były one przechowywane tylko w jednym miejscu, gdyż mogłoby to doprowadzić do ich utraty, chociażby w przypadku awarii systemu. Taką potrzebę można spełnić poprzez zapisywanie danych, które są dystrybuowane na inne komputery poprzez sieć P2P. 
+\label{ssec:Rozproszenie}
+Jednym z założeń w naszej pracy jest zastosowanie architektury rozproszonej. Celem tego założenia jest to, aby można było zapisywać dane w taki sposób, żeby nie były one przechowywane tylko w jednym miejscu, gdyż mogłoby to doprowadzić do ich utraty, chociażby w przypadku awarii systemu. Taką potrzebę można spełnić poprzez zapisywanie danych, które są dystrybuowane na inne komputery poprzez sieć P2P. Przykład takiej sieci przedstawia \figurename{~\ref{fig:P2P}}.
 \begin{figure}[!ht]
 	\centering
 		\includegraphics[width=0.3\textwidth]{Images/P2P.jpg}
@@ -18,7 +18,7 @@ Jednym z założeń w naszej pracy jest zastosowanie architektury rozproszonej. 
 	\label{fig:P2P}
 \end{figure}
 \newline Każdy z komputerów połączonych do takiej sieci zawierałyby swoją własną kopię danych, dzięki czemu przy utracie danych na którymś z komputerów, można je odzyskać poprzez pobranie ich od innego użytkownika.
-Istnieje również alternatywne rozwiązanie tego założenia, mianowicie przechowywanie danych na różnych serwerach. Jest to w obecnych czasach częściej spotykane rozwiązanie, lecz nie spełnia ono kolejnej potrzeby, która jest opisana w następnej sekcji.
+Istnieje również alternatywne rozwiązanie tego założenia, mianowicie przechowywanie danych na różnych serwerach, co widać w przykładzie zobrazowanym przez \figurename{~\ref{fig:SiecSerwery}}. Jest to w obecnych czasach częściej spotykane rozwiązanie, lecz nie spełnia ono kolejnej potrzeby, która jest opisana w następnej sekcji.
 \begin{figure}[!ht]
 	\centering
 		\includegraphics[width=0.3\textwidth]{Images/Siec_serwery.jpg}
@@ -28,17 +28,18 @@ Istnieje również alternatywne rozwiązanie tego założenia, mianowicie przech
 \newline
 
 \subsection{Decentralizacja}
-\label{sec:Decentralizacja}
+\label{ssec:Decentralizacja}
 Kolejnym wymogiem, jaki powinien być zrealizowany w naszej pracy, jest wykonanie aplikacji, która będzie działać w sposób zdecentralizowany. Oznacza to, że żaden użytkownik nie może mieć kontroli nad innymi, a co za tym idzie, nie ma żadnej scentralizowanej jednostki, która może zarządzać przepływem danych w sieci. Z tego powodu drugie rozwiązanie, które zostało wspomniane w poprzedniej sekcji, czyli wykorzystanie różnych serwerów do przechowywania danych, nie może zostać wykorzystane w naszej implementacji. Wynika to z faktu, iż osoby zarządzające serwerami mogą arbitralnie zablokować niepożądanym w ich ocenie osobom dostęp do zasobów danych.
 
 \section{Przypadki użycia}
+\label{sec:PrzypadkiUzycia}
 \begin{figure}[!ht]
 	\centering
 		\includegraphics[width=0.5\textwidth]{Images/PrzypadkiUzycia.png}
 	\caption{Diagram przypadków użycia}
 	\label{fig:PrzypadkiUzycia}
 \end{figure}
-Opis przypadków użycia:
+Opis przypadków użycia na podstawie diagramu, który pokazuje \figurename{~\ref{fig:PrzypadkiUzycia}}:
 \begin{itemize}
 \item {Wysłanie prośby o połączenie z innym użytkownikiem} - Użytkownik podaje adres ip i port innego użytkownika i wysyła do niego prośbę o połączenie. Jeśli drugi użytkownik zaakceptuje, zostanie nawiązane połączenie i zostanie dodany do listy połączonych użytkowników.
 \item {Akceptacja/Odrzucenie prośby o połączenie} - Użytkownik po otrzymaniu prośby o połączenie może ją zaakceptować bądź odrzucić.
@@ -66,7 +67,7 @@ Dostęp do danych powinien jak najwierniej odwzorowywać operacje atomowe na mik
 %--TODO--
 
 \subsection{Komunikacja między użytkownikami}
-\label{sec:Komunikacja}
+\label{ssec:Komunikacja}
 Jednym z istotnych elementów naszego programu jest możliwość komunikowania się ze sobą użytkowników. W tym celu wykorzystaliśmy porozumiewanie się za pomocą protokołu HTTP. Wynika to z następujących zapotrzebowań:
 \begin{itemize}
     \item bezpośrednia komunikacja między użytkownikami,
@@ -86,6 +87,23 @@ Alternatywą do HTTP jest IPFS - InterPlanetary File System, który na pierwszy 
 \textit{http://<Adres~IP>:<Numer~portu>/<funkcja\_do\_wywolania>}
 W tym konkretnym przypadku przedstawionym na diagramie, w naszym projekcie byłby to adres: \textit{http://<Adres~IP>:<Numer~portu>/receive\_message}.
 Wysłanie żądania odbywa się za pomocą gotowej funkcji przygotowanej w bibliotece \textit{Flask}, odpowiedzialnej za działanie serwera (funkcja \textit{requests.post()}). Wszelkie dane, które mają trafić do drugiej osoby, zapisywane są w formacie JSON. Po wysłaniu zapytania HTTP, serwer Użytkownika B odbiera je i przekazuje dalej do logiki biznesowej. W przypadku, gdy Użytkownik B otrzymał prawidłową wiadomość, wysyła odpowiedź HTTP ze statusem sukcesu, oznaczającym wysłanie prawidłowego żądania. Jeśli jednak z jakiegoś powodu Użytkownik A wysłał błędną wiadomość, np. została źle sformatowana, bądź Użytkownik B posiada przestarzały klucz publiczny wysyłającego, przez co nie mógł jej prawidłowo odszyfrować, to wysyła odpowiedź ze statusem błędu. Użytkownik A w zależności od tego, jaką otrzymał odpowiedź, wykonuje odpowiednią czynność. Dodaje on do swojej puli wiadomości tę wysłaną do Użytkownika B tylko wtedy, gdy się okaże, że została ona prawidłowo odebrana. Zostało to również odzwierciedlone na analizowanym diagramie.
+
+\subsection{Metodologia "Załatwianie Spraw"}
+\label{ssec:GTD}
+Istotną rzeczą według której kierowaliśmy się w implementacji modułu planera w logice biznesowej jest metodologia "Załatwianie Spraw" \ang{Getting Things Done} (stąd skrót GTD). Jest ona autorstwa Davida Allena, którą po raz pierwszy przedstawił światu w swojej książce o tym samym tytule \cite{GTD}. Polega ona na odpowiednim planowaniu swoich zadań w taki sposób, by osoba, która wdraża GTD, myślała jedynie o tym, w jaki sposób realizować te zadania, bez potrzeby zapamiętywania ich. Po ich zaplanowaniu, użytkownik nie powinien już myśleć o tych zadaniach do momentu, gdy zasięgnie do planera. Aby zrozumieć istotę tej metodologii, należy wymienić pięć kluczowych punktów, jakie należy spełnić używając jej. Głównymi czynnościami jakie należy wykonać to:
+\begin{itemize}
+    \item Gromadzenie - zbieranie do jednego miejsca wszystkich planów, zadań, pomysłów z jakimi w ostatnim czasie miała styczność dana osoba,
+    \item Analiza - podejmowanie po kolei decyzji na temat poszczególnych zadań. Są to decyzje pokroju:
+    \begin{itemize}
+        \item czy ono może zostać wykonane natychmiast,
+        \item czy z tym zadaniem są związane inne zadania,
+        \item czy to zadanie jest do wykonania przeze mnie. 
+    \end{itemize}
+    \item Porządkowanie - przypisywanie cech oraz kontekstu poszczególnym zadaniom. W tym punkcie należy przypisać do nich to, gdzie mają zostać wykonane, np. w domu, w biurze, w jaki sposób należy je zrobić, np. przez telefon, na miejscu,
+    \item Przegląd - etap w którym użytkownik powinien się upewnić, czy w prawidłowy sposób uporządkował zadania w poprzednich punktach,
+    \item Realizacja - poświęcenie swojej uwagi na wykonywaniu zadań zapisanych w poprzednich etapach, respektując ich cechy oraz kontekst, tj. zadania do wykonania w biurze powinny być wykonane właśnie tam.
+\end{itemize}
+W implementowanym systemie stworzony został moduł planera, który pozwala realizować zadania na podstawie dostosowanej do warunków technicznych, w jakich użytkownicy mogą go wykorzystywać. Z tego względu etapy dotyczące gromadzenia, analizy i porządkowania zostały ujednolicone w jeden wspólny punkt. W ten sposób został uproszczony proces dodawania nowych zadań przez użytkownika. To sprawia, że jest on również bardziej wydajny.
 
 \section{Przechowywanie danych}
 \label{sec:PrzechowywanieDanych}

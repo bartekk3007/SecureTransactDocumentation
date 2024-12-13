@@ -203,56 +203,57 @@ Pierwszą operacją jest zamienienie łańcucha znaków na ciąg bajtów. Potem 
 
 \section{Algorytmy osiągania konsensusu}
 \label{sec:Konsensus}
-W kryptowalutach stosuje się wiele metod konsensusu, z czego najbardziej popularne z nich to \textit{Dowód Pracy} i \textit{Dowód Stawki}. Innymi również znanymi są \textit{Dowód Pojemności} i \textit{Delegowany Dowód Stawki}. Aby uzasadnić która z nich została zastosowana w implementacji systemu, warto wpierw przeanalizować wszystkie z nich oraz zobaczyć związane z nimi wady i zalety.
-\subsection{Dowód Pracy}
+W kryptowalutach stosuje się wiele metod konsensusu, z czego najbardziej popularne z nich to \textit{dowód pracy} i \textit{dowód stawki}. Innymi również znanymi są \textit{dowód pojemności} i \textit{delegowany dowód stawki}. Aby uzasadnić która z nich została zastosowana w implementacji systemu, warto wpierw przeanalizować wszystkie z nich oraz zobaczyć związane z nimi wady i zalety.
+\subsection{Dowód pracy}
 \label{ssec:PoW}
-Dowód Pracy \ang{Proof of Work} jest jedną z najstarszych metod konsensusu stosowanych w kryptowalutach, gdzie dla każdego bloku wiadomości przypisana jest określona funkcja skrótu i użytkownicy mają za zadanie znaleźć odpowiednią funkcję skrótu, która spełnia określone wymagania (na przykład zaczyna się ona od konkretnej liczby zer). Z pozoru wydaje się, że ta metoda konsensusu ma dużo zalet, ponieważ każdy może wziąć udział w weryfikowaniu bloku. Prawda jest jednak taka, że przewagę w tym systemie mają osoby posiadające odpowiednio dużo mocy obliczeniowej. Prowadzi to do centralizacji górnictwa przez firmy/organizacje posiadające ogromne ilości sprzętu i ogromnego zużycia energii oraz niekorzystnych zjawisk ekonomicznych takich jak gwałtowny wzrost cen kart graficznych.
-Działanie Dowodu Pracy obrazuje \figurename{~\ref{fig:ConsesnsusProofOfWork}}
+Dowód pracy \ang{Proof of Work} jest jedną z najstarszych metod konsensusu stosowanych w kryptowalutach, gdzie dla każdego bloku wiadomości przypisana jest określona funkcja skrótu i użytkownicy mają za zadanie znaleźć odpowiednią funkcję skrótu, która spełnia określone wymagania (na przykład zaczyna się ona od konkretnej liczby zer). Z pozoru wydaje się, że ta metoda konsensusu ma dużo zalet, ponieważ każdy może wziąć udział w weryfikowaniu bloku. Prawda jest jednak taka, że przewagę w tym systemie mają osoby posiadające odpowiednio dużo mocy obliczeniowej. Prowadzi to do centralizacji górnictwa przez firmy/organizacje posiadające ogromne ilości sprzętu i ogromnego zużycia energii oraz niekorzystnych zjawisk ekonomicznych takich jak gwałtowny wzrost cen kart graficznych.
+Działanie dowodu pracy obrazuje \figurename{~\ref{fig:ConsesnsusProofOfWork}}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{Images/ConsesnsusProofOfWork.png}
-    \caption{Schemat działania Dowodu Pracy}
+    \caption{Schemat działania dowodu pracy}
     \label{fig:ConsesnsusProofOfWork}
 \end{figure}
-\subsection{Dowód Stawki}
+\subsection{Dowód stawki}
 \label{ssec:PoS}
-Dowód Stawki \ang.{Proof Of Stake} opiera się na założeniu, że wraz z postawioną większą stawką przez osobę rośnie prawdopodobieństwo wybrania jej jako weryfikatora. Uściślając metoda Dowodu Stawki przebiega tak, że po zebraniu odpowiedniej liczby wiadomości, tworzony blok, lecz aby mogło do tego dojść, najpierw weryfikatorzy decydują czy wiadomości z bloku są autentyczne i nikt ich wcześniej nie zmodyfikował. Jeśli większość weryfikatorów postanowi, żeby zbiór wiadomości jest prawidłowy, tworzony jest nowy blok. Weryfikatorzy, którzy głosowali uczciwie są nagradzani za swój głos poprzez podarowanie im określonej ilości kryptowaluty \ang{stacking}, a weryfikatorzy, którzy zagłosowali nieuczciwie, karani są poprzez zabranie postawionej przez nich stawki \ang{slashing}. Wydawać by się mogło, że ta metoda promuje bogatych użytkowników i umożliwia im oszustwa, lecz w rzeczywistości osoby bogate (te który postawiły najwyższą stawkę) są najbardziej odstraszane od oszustwa. W przypadku nieuczciwego zachowania podczas weryfikacji potencjalnego bloku są oni najbardziej karani (ponieważ postawili największą stawkę). Dodatkowo ta metoda konsensusu zapewnia duży stopień decentralizacji (w przeciwieństwie do tego, do czego w praktyce dochodzi w Dowodzie Pracy). W metodzie tej nie da się oszukać poprzez sytuację, że jedna osoba tworzy wiele kont (sytuacja określana też jako tworzenie multikont), ponieważ w metodzie konsensusu Dowodu Stawki nie chodzi o to, ilu użytkowników jest w sieci, a ile postawili oni stawki. Działanie Dowodu Stawki przedstawione jest przez \figurename{~\ref{fig:ConsensusPOS}}
+Dowód stawki \ang{Proof Of Stake} opiera się na założeniu, że wraz z postawioną większą stawką przez osobę rośnie prawdopodobieństwo wybrania jej jako weryfikatora. Uściślając metoda dowodu stawki przebiega tak, że po zebraniu odpowiedniej liczby wiadomości, tworzony blok, lecz aby mogło do tego dojść, najpierw weryfikatorzy decydują czy wiadomości z bloku są autentyczne i nikt ich wcześniej nie zmodyfikował. Jeśli większość weryfikatorów postanowi, żeby zbiór wiadomości jest prawidłowy, tworzony jest nowy blok. Weryfikatorzy, którzy głosowali uczciwie są nagradzani za swój głos poprzez podarowanie im określonej ilości kryptowaluty \ang{stacking}, a weryfikatorzy, którzy zagłosowali nieuczciwie, karani są poprzez zabranie postawionej przez nich stawki \ang{slashing}. Wydawać by się mogło, że ta metoda promuje bogatych użytkowników i umożliwia im oszustwa, lecz w rzeczywistości osoby bogate (te który postawiły najwyższą stawkę) są najbardziej odstraszane od oszustwa. W przypadku nieuczciwego zachowania podczas weryfikacji potencjalnego bloku są oni najbardziej karani (ponieważ postawili największą stawkę). Dodatkowo ta metoda konsensusu zapewnia duży stopień decentralizacji (w przeciwieństwie do tego, do czego w praktyce dochodzi w dowodzie pracy). W metodzie tej nie da się oszukać poprzez sytuację, że jedna osoba tworzy wiele kont (sytuacja określana też jako tworzenie multikont), ponieważ w metodzie konsensusu dowodu stawki nie chodzi o to, ilu użytkowników jest w sieci, a ile postawili oni stawki. Działanie dowodu stawki przedstawione jest przez \figurename{~\ref{fig:ConsensusPOS}}
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{Images/ConsensusPOS.png}
-    \caption{Schemat działania Dowodu Stawki}
+    \caption{Schemat działania dowodu stawki}
     \label{fig:ConsensusPOS}
 \end{figure}
 
-\subsection{Delegowany Dowód Stawki}
+\subsection{Delegowany dowód stawki}
 \label{ssec:DPoS}
 
-Delegowany Dowód Stawki \ang{Delegated Proof Of Stake} działa w podobny sposób jak Dowód Stawki, lecz z tym zastrzeżeniem, że wszyscy użytkownicy sieci zamiast mieć możliwość bycia wylosowanym, głosują na jednego z dostępnych delegatów, by ta osoba podczas weryfikacji głosowała w ich imieniu. Nagrody za uczciwe głosowanie dostają delegaci. Mogą się nimi podzielić z użytkownikami, którzy na nich głosowali. Pomimo tego, że ta metoda konsensusu jest szybsza niż Dowód Stawki jej istotną wadą jest to, że w niej występuje o wiele większa centralizacji i zwykły użytkownik (o ile nie jest delegatem), nie ma bezpośredniej możliwości decydowania o tym, czy uważa dany blok za prawidłowy, czy też nie.
-Działanie Delegowanego Dowodu Stawki obrazuje \figurename{~\ref{fig:ConsensusDPOS}}
+Delegowany dowód stawki \ang{Delegated Proof Of Stake} działa w podobny sposób jak dowód stawki, lecz z tym zastrzeżeniem, że wszyscy użytkownicy sieci zamiast mieć możliwość bycia wylosowanym, głosują na jednego z dostępnych delegatów, by ta osoba podczas weryfikacji głosowała w ich imieniu. Nagrody za uczciwe głosowanie dostają delegaci. Mogą się nimi podzielić z użytkownikami, którzy na nich głosowali. Pomimo tego, że ta metoda konsensusu jest szybsza niż dowód stawki jej istotną wadą jest to, że w niej występuje o wiele większa centralizacji i zwykły użytkownik (o ile nie jest delegatem), nie ma bezpośredniej możliwości decydowania o tym, czy uważa dany blok za prawidłowy, czy też nie.
+Działanie delegowanego dowodu stawki obrazuje \figurename{~\ref{fig:ConsensusDPOS}}
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{Images/ConsensusDPOS.png}
-    \caption{Schemat działania Delegowanego Dowodu Stawki}
+    \caption{Schemat działania delegowanego dowodu stawki}
     \label{fig:ConsensusDPOS}
 \end{figure}
 
-\subsection{Dowód Pojemności}
+\subsection{Dowód pojemności}
 \label{ssec:PoC}
-W Dowodzie Pojemności \ang{Proof Of Capacity} każdy z uczestników posiada pliki wykresów, w których są już wcześniej obliczone wartości matematyczne. Podczas tworzenia nowego bloku ogłaszana jest pewna wartość liczbowa i uczestnicy przeszukują swoje pliki wykresów, aby znaleźć wartość najbardziej do niej pasująca. Użytkownik, który będzie miał wartości najbliżej tej poszukiwanej zostanie nagrodzony kryptowalutą. Zaletą tej metody konsensusu jest fakt, że każdy może wziąć w niej udział, ale w rzeczywistości realne szanse mają osoby o ogromnej pojemności pamięciowej. Prowadzi to do tworzenia się dużych grup/związków tworzonych przez różne organizacje (na przykład firmy), co prowadzi do dążenia do centralizacji. Działanie Dowodu Pojemności pokazuje \figurename{~ \ref{fig:ConsensusPOC}}
-\begin{figure}[hb]
+W dowodzie pojemności \ang{Proof Of Capacity} każdy z uczestników posiada pliki wykresów, w których są już wcześniej obliczone wartości matematyczne. Podczas tworzenia nowego bloku ogłaszana jest pewna wartość liczbowa i uczestnicy przeszukują swoje pliki wykresów, aby znaleźć wartość najbardziej do niej pasująca. Użytkownik, który będzie miał wartości najbliżej tej poszukiwanej zostanie nagrodzony kryptowalutą. Zaletą tej metody konsensusu jest fakt, że każdy może wziąć w niej udział, ale w rzeczywistości realne szanse mają osoby o ogromnej pojemności pamięciowej. Prowadzi to do tworzenia się dużych grup/związków tworzonych przez różne organizacje (na przykład firmy), co prowadzi do dążenia do centralizacji. Działanie dowodu pojemności pokazuje \figurename{~ \ref{fig:ConsensusPOC}}
+\clearpage
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.65\textwidth]{Images/ConsensusPOC.png}
-    \caption{Schemat działania Dowodu Pojemności}
+    \caption{Schemat działania dowodu pojemności}
     \label{fig:ConsensusPOC}
 \end{figure}
 
 \subsection{Porównanie algorytmów osiągania konsensusu}
 \label{ssec:KonsensusPorownanie}
-Spośród wszystkich dostępnych metod konsensusu wybrano tą, która z pozoru wydaje się być nieuczciwie faworyzującą bogatszych uczestników. Dowód Stawki jest jedynym z wyżej wymienionych algorytmów, który nie ma w sobie istotnej wady jaką jest dążenie do centralizacji, wywołane stosowaniem konkretnej metody konsensusu – centralizacji jednostek obliczeniowych (Dowód Pracy), centralizacji pojemności pamięciowej (Dowód Pojemności) czy centralizacji możliwość decydowania o poprawności danego bloku jedynie dla wybranej grupy osób (Delegowany Dowód Stawki). Dowód Stawki, w przeciwieństwie do niektórych z innych algorytmów osiągania konsensusu, nie powoduje nadmiernego zużywania zasobów – prądu używanego do obliczeń w Dowodzie Pracy i przestrzeni dyskowej (w tym sprzętu elektronicznego) by zwiększyć ilość posiadanej pamięci w Dowodzie Pojemności. Wracając do zarzutu stawianego Dowodowi Stawki na początku akapitu, co prawda najbogatsi (posiadający największą stawkę) mają największe szanse na zostanie weryfikatorem, ale w przypadku oszustwa są oni najmocniej karani, ponieważ tracą całą swoją postawioną stawkę.
+Spośród wszystkich dostępnych metod konsensusu wybrano tą, która z pozoru wydaje się być nieuczciwie faworyzującą bogatszych uczestników. Dowód stawki jest jedynym z wyżej wymienionych algorytmów, który nie ma w sobie istotnej wady jaką jest dążenie do centralizacji, wywołane stosowaniem konkretnej metody konsensusu – centralizacji jednostek obliczeniowych (dowód pracy), centralizacji pojemności pamięciowej (dowód pojemności) czy centralizacji możliwość decydowania o poprawności danego bloku jedynie dla wybranej grupy osób (delegowany dowód stawki). Dowód Stawki, w przeciwieństwie do niektórych z innych algorytmów osiągania konsensusu, nie powoduje nadmiernego zużywania zasobów – prądu używanego do obliczeń w dowodzie pracy i przestrzeni dyskowej (w tym sprzętu elektronicznego) by zwiększyć ilość posiadanej pamięci w dowodzie pojemności. Wracając do zarzutu stawianego dowodowi stawki na początku akapitu, co prawda najbogatsi (posiadający największą stawkę) mają największe szanse na zostanie weryfikatorem, ale w przypadku oszustwa są oni najmocniej karani, ponieważ tracą całą swoją postawioną stawkę.
 
 \subsection{Użycie algorytmów osiągania konsenusu w praktyce}
 \label{ssec:KonsensusUzycie}
-Przy wybieraniu osoby, która będzie weryfikatorem korzysta się z funkcji, widocznej w \lstlistingname{~\ref{lst:WybieranieSygnatariusza}}, która ma go wyłonić kierując się zasadami z Dowodem Stawki.
+Przy wybieraniu osoby, która będzie weryfikatorem korzysta się z funkcji, widocznej w \lstlistingname{~\ref{lst:WybieranieSygnatariusza}}, która ma go wyłonić kierując się zasadami z dowodem stawki.
 
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Funkcja wybierająca sygnatariusza}, label={lst:WybieranieSygnatariusza}]
 def draw_verifier(self, group):
@@ -282,7 +283,7 @@ numericSeed = int.from_bytes(hashlib.sha256(keyRaw
 random.seed(numeric_seed)
 \end{lstlisting}
 
-Następnie odbywa się losowanie weryfikatora. Widoczne jest to we funkcji wylistowanej w \lstlistingname{~\ref{lst:WybieranieWeryfikatora}}. Zgodnie z metodą uzyskania konsensusu Dowodu Stawki należy wylosować jednego z uczestników przy uwzględnieniu postawionych przez nich stawek. W tym celu zastosowano wbudowaną w język Python metodę random.choices, której argumentem, poza listą uczestników losowania, jest lista wag, która jest równoważna liście wartości postawionych przez nich stawek. To oznacza, że im ktoś większą postawił stawkę, tym większa jest jego szansa na zostanie wylosowanym. Jest to zgodne z założeniami Dowodu Stawki.
+Następnie odbywa się losowanie weryfikatora. Widoczne jest to we funkcji wylistowanej w \lstlistingname{~\ref{lst:WybieranieWeryfikatora}}. Zgodnie z metodą uzyskania konsensusu dowodu stawki należy wylosować jednego z uczestników przy uwzględnieniu postawionych przez nich stawek. W tym celu zastosowano wbudowaną w język Python metodę random.choices, której argumentem, poza listą uczestników losowania, jest lista wag, która jest równoważna liście wartości postawionych przez nich stawek. To oznacza, że im ktoś większą postawił stawkę, tym większa jest jego szansa na zostanie wylosowanym. Jest to zgodne z założeniami dowodu stawki.
 
 \begin{lstlisting}[language=Python, extendedchars=true, caption={Wybieranie weryfikatora}, label={lst:WybieranieWeryfikatora}]
 chosen_peer = random.choices(person_stake_list,
@@ -295,18 +296,19 @@ return chosen_peer
 
 Gdy zestaw wiadomości został zweryfikowany jako prawidłowy i tworzony jest z nich blok, pojawia się wątpliwość jak zabezpieczyć blok przed nieautoryzowanymi zmianami treści w nim tak, aby każdy członek sieci mógł w łatwy sposób sprawdzić czy faktycznie nikt nie zmodyfikował wiadomości.
 
-\subsection{Zabezpieczanie bloku w Dowodzie Pracy}
+\subsection{Zabezpieczanie bloku w dowodzie pracy}
 \label{ssec:ZabezpieczenieBlokuPoW}
 
-W metodzie konsensusu Dowód Pracy poprawność bloku sprawdza się poprzez porównywanie funkcji skrótu odpowiednio ze sobą połączonych bloków. Wadą tego rodzaju rozwiązania jest fakt, że do samego sprawdzenia podpisu potrzebne są ogromne moce obliczeniowe. Jest to mocno niekorzystne. Dodatkowo jednostka lub zespół jednostek, posiadający odpowiednio dużą moc obliczeniową, może zamienić treści wiadomości w poprzednich blokach w łańcuchu tak, aby wartość funkcji skrótu się zgadzała z nowszymi wiadomościami i nie wzbudzała podejrzeń.
-Łączenie bloków w Dowodzie Pracy za pomocą funkcji skrótów przedstawia \figurename{~\ref{fig:ProofOfWorkHash}}
+W metodzie konsensusu dowód pracy poprawność bloku sprawdza się poprzez porównywanie funkcji skrótu odpowiednio ze sobą połączonych bloków. Wadą tego rodzaju rozwiązania jest fakt, że do samego sprawdzenia podpisu potrzebne są ogromne moce obliczeniowe. Jest to mocno niekorzystne. Dodatkowo jednostka lub zespół jednostek, posiadający odpowiednio dużą moc obliczeniową, może zamienić treści wiadomości w poprzednich blokach w łańcuchu tak, aby wartość funkcji skrótu się zgadzała z nowszymi wiadomościami i nie wzbudzała podejrzeń.
+Łączenie bloków w dowodzie pracy za pomocą funkcji skrótów przedstawia \figurename{~\ref{fig:ProofOfWorkHash}}
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\textwidth]{Images/ProofOfWorkHash.jpg}
-    \caption{Działanie funkcji skrótu w Dowodzie Pracy}
+    \caption{Działanie funkcji skrótu w dowodzie pracy}
     \label{fig:ProofOfWorkHash}
 \end{figure}
-
+\newline{}
+\newline{}
 Zamiast stosować skomplikowany algorytm połączonych ze sobą funkcji skrótu w implementacji systemu, postanowiono skorzystać z innej metody, również stosowanej w innych systemach kryptograficznych. Jest to podpis cyfrowy.
 
 \subsection{Zabezpieczanie bloku poprzez podpis cyfrowy}
