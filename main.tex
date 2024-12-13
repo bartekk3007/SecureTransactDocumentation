@@ -2,11 +2,15 @@
 \usepackage{macra_xelatex}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{pdfpages}
 
 \begin{document}
 % strony generowane z moja.pg
-\includepdf{Chapters/Strona_tytulowa.pdf}
-\includepdf{Chapters/Oswiadczenie.pdf}
+% \includepdf{Chapters/Strona_tytulowa.pdf}
+% \includepdf{Chapters/Oswiadczenie.pdf}
+
+% strona tytulowa
+% \includepdf[pages=-, width=\textwidth]{StronaTytulowa188701}
 
 % streszczenie PL, EN
 \input{Chapters/Streszczenie}
@@ -33,9 +37,7 @@
 
 % wykazy 
 \listoffigures
-\listoftables
-
+\lstlistoflistings
 % dodatki
-\appendix
-\input{Chapters/DodatekA}  
+
 \end{document}
